@@ -15,17 +15,27 @@ import java.util.Set;
 public class User {
     private String username;
     private String password;
-    private List<User> friendlist;
-    public static Set<User> userlist = new HashSet<>();
+    private List<User> friendList;
+    public static Set<User> userList = new HashSet<>();
 
     public User( String username, String password) {
         this.username = username;
         this.password = password;
-        this.friendlist = new LinkedList<>();
-        userlist.add(this);
+        this.friendList = new LinkedList<>();
+        userList.add(this);
     }
+
+
     public static void printUserList() {
-        System.out.println(userlist);
+        System.out.println(userList);
+    }
+
+    public static boolean deleteUser(User user) {
+        if(userList.contains(user)) {
+            userList.remove(user);
+            return true;
+        }
+        return false;
     }
 
 }
