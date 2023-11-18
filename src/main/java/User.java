@@ -13,16 +13,12 @@ import java.util.Set;
 @EqualsAndHashCode
 @ToString
 public class User {
-    private String firstname;
-    private String lastname;
     private String username;
     private String password;
     private List<User> friendlist;
     public static Set<User> userlist = new HashSet<>();
 
-    public User(String firstname, String lastname, String username, String password) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public User( String username, String password) {
         this.username = username;
         this.password = password;
         this.friendlist = new LinkedList<>();
