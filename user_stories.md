@@ -1,5 +1,5 @@
 
-#User-Stories & Akzeptanzkriterien:
+## User-Stories & Akzeptanzkriterien:
 
 1. **Als Nutzer möchte ich, dasss ich mich mit meiner E-Mail-Adresse und Nutzernamen registrieren kann, damit ich als gültiger Nutzer im System aufgenommen werde und mich einloggen kann.**
 - E-Mail wird verifiziert, durch Senden einer E-Mail mit Authentifizierungslink.
@@ -23,11 +23,11 @@
 - Das Abschicken einer Nachricht erfolgt über ein "Send" Button.
 - Die geschickte Nachricht wird bei beiden Kommunikatoren im Chat-Verlauf angezeigt.
 
-5. **Als Nutzer möchte ich, dass ich Gruppen-Chats erstellen kann, damit ich mit mehreren Nutzern gleichzeitig kommunizieren kann.**
+4. **Als Nutzer möchte ich, dass ich Gruppen-Chats erstellen kann, damit ich mit mehreren Nutzern gleichzeitig kommunizieren kann.**
 - Jeder Nutzer kann einen Gruppen-Chat erstellen.
 - Der Ersteller jeder Gruppe ist automatisch auch ein Admin der Gruppe.
 - Ein Admin kann anderen Gruppenmitglieder als Admin zuweisen.
 - Ein Admin kann einen Gruppen-Namen sowie Gruppen-Bild hinzufügen.
 - Jeder Admin einer Gruppe kann andere Nutzer hinzufügen bzw. entfernen.
 
-6. ...
+5. ...

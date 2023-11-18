@@ -1,8 +1,8 @@
-### Hier sind die **functional** und **non-functional Requirements** vom Client-Server Chat Projekt definiert:
+#### Hier sind die **functional** und **non-functional Requirements** vom Client-Server Chat Projekt definiert:
 
 
-# (Funktionale) Requirements:
-## Basics
+## (Funktionale) Requirements:
+### Basics
 - Nutzer registrieren sich mit einer gültigen E-Mail Adresse.
 - Nutzer können sich in der App mit Nutzername & Passwort registrieren und danach einloggen.
 - Nutzer werden mit ihrem Nutzernamen in der App angezeigt.
@@ -12,13 +12,13 @@
 - Die App wird ein übersichtliches GUI-Design mit JavaFX erhalten, das an das originale WhatsApp angelehnt sein wird.
 
 
-## Gruppen-Chat
+### Gruppen-Chat
 - Nutzer können einen Gruppen-Chat mit anderen Nutzern erstellen.
 - Im Gruppen-Chat kann ein oder mehrere Nutzer als Admin zugewiesen werden.
 - Jeder Admin eines Gruppen-Chats kann andere Nutzer in der Gruppe hinzufügen bzw. entfernen.
 - Admins können einem Gruppen-Chat einen Namen geben.
 
-## Features
+### Features
 - Nutzer der App werden benachrichtigt, wenn sie eine neue Nachricht empfangen.
 - Nutzer der App können sehen, ob andere Nutzer Online/Offline sind.
 - Nutzer können neben einfachen Text-Nachrichten aus Smileys/Emojis versenden und anzeigen.
