@@ -29,7 +29,7 @@
 
 # Nicht-funktionale Requirements:
 - Projekt wird vollständig in Java programmiert werden.
-- Projekt wird in und für Java SE 19 entwickelt.
+- Projekt wird in und für Java SE 17 entwickelt.
 - Für das Front-End der App wird JavaFX benutzt.
 - Es wird ein externer Server gehostet (Details später).
 - Das Projekt muss bis zum 14.01.2024 funktionsfähig und abgegeben werden.
