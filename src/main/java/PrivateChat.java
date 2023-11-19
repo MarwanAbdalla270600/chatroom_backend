@@ -1,19 +1,22 @@
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.LinkedList;
+
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode(callSuper = true)
 public class PrivateChat extends Chat{
-    private User participant1;
-    private User participant2;
+    private User firstMember;
+    private User secondMember;
 
-    public PrivateChat(String chatID, LocalDateTime time, List<Message> messageList, User participant1, User participant2) {
-        super(chatID, time, messageList);
-        this.participant1 = participant1;
-        this.participant2 = participant2;
+    public PrivateChat(String chatID, LocalDateTime time, User firstMember, User secondMember) {
+        super(chatID, time, new LinkedList<>());
+        this.firstMember = firstMember;
+        this.secondMember = secondMember;
     }
 }
