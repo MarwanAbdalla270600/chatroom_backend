@@ -4,19 +4,20 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.LinkedList;
-
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(callSuper = true)
-public class PrivateChat extends Chat{
-    private User firstMember;
-    private User secondMember;
+@EqualsAndHashCode
+public abstract class Chat {
+    private String chatID;
+    private LocalDateTime datetime;         //Erstelldatum des Chats
+    private List<Message> messageList;      //Liste an Nachrichten die verschickt wurden.... ka ob das so sinn macht?
 
-    public PrivateChat(String chatID, LocalDateTime time, User firstMember, User secondMember) {
-        super(chatID, time, new LinkedList<>());
-        this.firstMember = firstMember;
-        this.secondMember = secondMember;
+    public Chat(String chatID, LocalDateTime time, List<Message> messageList) {
+        this.chatID = chatID;
+        this.datetime = time;
+        this.messageList = new LinkedList<>();
     }
 }
