@@ -3,7 +3,6 @@
 
 ## (Funktionale) Requirements:
 ### Basics
-- Nutzer registrieren sich mit einer gültigen E-Mail Adresse.
 - Nutzer können sich in der App mit Nutzername & Passwort registrieren und danach einloggen.
 - Nutzer werden mit ihrem Nutzernamen in der App angezeigt.
 - Nutzer können ein Profilfoto auswählen.
@@ -22,9 +21,8 @@
 - Nutzer der App werden benachrichtigt, wenn sie eine neue Nachricht empfangen.
 - Nutzer der App können sehen, ob andere Nutzer Online/Offline sind.
 - Nutzer können neben einfachen Text-Nachrichten aus Smileys/Emojis versenden und anzeigen.
-- Nutzer können Audio-Nachrichten verschicken.
 - Nutzer können Bilder verschicken.
-- Nutzer können Videos verschicken.
+
 
 
 # Nicht-funktionale Requirements:
