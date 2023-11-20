@@ -1,35 +1,36 @@
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @ToString
 public class User {
-    private String firstname;
-    private String lastname;
     private String username;
     private String password;
-    private List<User> friendlist;
-    public static Set<User> userlist = new HashSet<>();
+    private Set<User> friendList;
 
-    public User(String firstname, String lastname, String username, String password) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public User( String username, String password) {
         this.username = username;
         this.password = password;
-        this.friendlist = new LinkedList<>();
-        userlist.add(this);
-    }
-    public static void printUserList() {
-        System.out.println(userlist);
+        this.friendList = new HashSet<>();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(username, user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username);
+    }
 }
