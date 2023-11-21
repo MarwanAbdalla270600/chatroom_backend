@@ -17,12 +17,10 @@ import java.util.Objects;
 public abstract class Chat {
     private int chatId;
     private LocalDateTime date;
-    private List<Message> messageList;
 
     public Chat(int chatId) {
         this.chatId = chatId;
         this.date = LocalDateTime.now();
-        this.messageList = new LinkedList<>();
     }
 
     @Override
