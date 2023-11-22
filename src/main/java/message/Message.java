@@ -1,29 +1,35 @@
 package message;
 
-import chat.Chat;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import user.User;
 
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
-public class Message {
-    private String data;
+public abstract class Message {
+    private int messageId;
     private LocalDateTime time;
-    private User sender;
-    private Chat receiver;
 
-    public Message(String data, User sender, Chat receiver) {
-        this.data = data;
+    public Message(int messageId) {
+        this.messageId = messageId;
         this.time = LocalDateTime.now();
-        this.sender = sender;
-        this.receiver = receiver;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return messageId == message.messageId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(messageId);
     }
 }
