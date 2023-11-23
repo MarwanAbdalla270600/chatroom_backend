@@ -3,36 +3,25 @@ package chat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.EqualsAndHashCode;
 import message.Message;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.LinkedList;
-import java.util.Objects;
+
 
 @Getter
 @Setter
 @ToString
-
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class Chat {
+    @EqualsAndHashCode.Include
     private int chatId;
     private LocalDateTime date;
 
     public Chat(int chatId) {
         this.chatId = chatId;
         this.date = LocalDateTime.now();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Chat chat = (Chat) o;
-        return chatId == chat.chatId;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(chatId);
     }
 }
