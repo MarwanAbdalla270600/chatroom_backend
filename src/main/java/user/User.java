@@ -5,6 +5,7 @@ import chat.PrivateChat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.EqualsAndHashCode;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -14,8 +15,11 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
+    @EqualsAndHashCode.Include
     private String username;
+
     private String password;
     private Set<User> friendList;
     private Set<GroupChat> groupChats;
@@ -29,16 +33,4 @@ public class User {
         this.privateChats = new HashSet<>();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(username, user.username);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(username);
-    }
 }
