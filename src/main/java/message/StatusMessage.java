@@ -14,9 +14,14 @@ public class StatusMessage extends Message{
     private String data;
     private Chat chat;
 
-    public StatusMessage(int messageId, String data, Chat chat) {
-        super(messageId);
+    public StatusMessage(String data, Chat chat) {
+        super();
         this.data = data;
         this.chat = chat;
+    }
+
+    public StatusMessage(String data) {
+        super();
+        this.data = data;
     }
 }
