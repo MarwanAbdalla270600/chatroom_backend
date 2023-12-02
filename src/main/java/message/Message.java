@@ -15,10 +15,12 @@ import java.time.LocalDateTime;
 public abstract class Message {
     @EqualsAndHashCode.Include
     private int messageId;
+
+    private static int nextId = 0;
     private LocalDateTime time;
 
-    public Message(int messageId) {
-        this.messageId = messageId;
+    public Message() {
+        this.messageId = nextId++;
         this.time = LocalDateTime.now();
     }
 }
