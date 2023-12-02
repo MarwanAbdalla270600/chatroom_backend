@@ -14,8 +14,8 @@ public class FriendRequestMessage extends Message {
     User receiver;
     boolean pending;
 
-    public FriendRequestMessage(int messageId, User sender, User receiver) {
-        super(messageId);
+    public FriendRequestMessage(User sender, User receiver) {
+        super();
         this.sender = sender;
         this.receiver = receiver;
         this.pending = true;
