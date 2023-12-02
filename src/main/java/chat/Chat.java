@@ -18,10 +18,12 @@ import java.util.LinkedList;
 public abstract class Chat {
     @EqualsAndHashCode.Include
     private int chatId;
-    private LocalDateTime date;
 
-    public Chat(int chatId) {
-        this.chatId = chatId;
+    private LocalDateTime date;
+    private static int nextId = 0;
+
+    public Chat() {
+        this.chatId = nextId++;
         this.date = LocalDateTime.now();
     }
 }
