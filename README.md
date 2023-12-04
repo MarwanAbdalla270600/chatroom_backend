@@ -20,21 +20,21 @@ Verlauf mit jedem Nutzer angezeigt wird.
 - Die App wird ein übersichtliches GUI-Design mit JavaFX erhalten, das an das
 originale WhatsApp angelehnt sein wird.
 
-#### **Should haves (muss erfüllt werden um einen 3er zu bekommen)**
+#### **Should haves** (muss erfüllt werden um einen 3er zu bekommen)
 - Nutzer können einen Gruppen-Chat mit anderen Nutzern erstellen.
 - Im Gruppen-Chat kann ein oder mehrere Nutzer als Admin zugewiesen werden.
 - Jeder Admin eines Gruppen-Chats kann andere Nutzer in der Gruppe hinzufügen
 bzw. entfernen.
 - Admins können einem Gruppen-Chat einen Namen geben.
 
-#### **Nice to haves (muss erfüllt werden um einen 2er zu bekommen)**
+#### **Nice to haves** (muss erfüllt werden um einen 2er zu bekommen)
 - Nutzer der App werden benachrichtigt, wenn sie eine neue Nachricht empfangen.
 - Es kann nach Freunden gesucht werden.
 - Nutzer können ein Profilfoto auswählen
 - Chat-Nachrichten werden zeitlich mit Tag/Uhrzeit protokolliert und bei Nachrichten
 vermerkt.
 
-#### **Overkill (muss erfüllt werden um einen 1er zu bekommen)**
+#### **Overkill** (muss erfüllt werden um einen 1er zu bekommen)
 - Nutzer der App können sehen, ob andere Nutzer Online/Offline sind.
 - Nutzer können Bilder verschicken.
 - Nachrichten können im Nachhinein verändert werden.
