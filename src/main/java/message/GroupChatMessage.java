@@ -17,7 +17,7 @@ public class GroupChatMessage extends Message {
     GroupChat receiver;
 
     public GroupChatMessage(int messageId, String data, User sender, GroupChat receiver) {
-        super(messageId);
+        super();
         this.data = data;
         this.sender = sender;
         this.receiver = receiver;

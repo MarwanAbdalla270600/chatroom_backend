@@ -4,13 +4,23 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import message.GroupChatMessage;
+import message.StatusMessage;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Getter
-@Setter
 @ToString
 @EqualsAndHashCode(callSuper = true)
 public class StatusChat extends Chat {
-    public StatusChat(int chatId) {
-        super(chatId);
+    private List<StatusMessage> messages;
+    public StatusChat() {
+        super();
+        this.messages = new LinkedList<>();
+    }
+
+    public void addStatusMessage(StatusMessage statusMessage) {
+        this.messages.add(statusMessage);
     }
 }

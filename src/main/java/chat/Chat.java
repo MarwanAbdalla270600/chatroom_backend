@@ -21,9 +21,11 @@ public abstract class Chat {
 
     private LocalDateTime date;
     private static int nextId = 0;
+    private List<Message> messages;
 
     public Chat() {
         this.chatId = nextId++;
         this.date = LocalDateTime.now();
+        this.messages = new LinkedList<>();
     }
 }

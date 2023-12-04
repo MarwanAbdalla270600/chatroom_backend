@@ -9,7 +9,6 @@ import lombok.EqualsAndHashCode;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class Message {
