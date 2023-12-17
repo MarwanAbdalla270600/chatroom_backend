@@ -2,13 +2,11 @@ package user;
 
 import chat.GroupChat;
 import chat.PrivateChat;
-import chat.StatusChat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 import message.FriendRequestMessage;
-import message.Message;
 import message.StatusMessage;
 
 import java.util.ArrayList;
@@ -29,7 +27,7 @@ public class User {
     private Set<GroupChat> groupChats;
     private Set<PrivateChat> privateChats;
     private ArrayList<FriendRequest> friendRequests;
-    private StatusChat statusChat;
+
 
     public User( String username, String password) {
         this.username = username;
@@ -38,7 +36,6 @@ public class User {
         this.groupChats = new HashSet<>();
         this.privateChats = new HashSet<>();
         this.friendRequests = new ArrayList<>();
-        this.statusChat = new StatusChat();
     }
 
     public void sendFriendRequest(User receiver) {
@@ -56,14 +53,14 @@ public class User {
 
     public boolean hasSentRequest(User receiver) {
         for (FriendRequest request : friendRequests) {
-            if (request.getReceiver().equals(receiver) && request.getStatus() == 0) {
+            if (request.getReceiver().equals(receiver) && request.getStatus() == FriendRequest.FriendRequestStatus.PENDING) {
                 return true;
             }
         }
         return false;
     }
     public void sendNotification(User user, StatusMessage message) {
-        user.statusChat.addStatusMessage(message);
+        //user.statusChat.addStatusMessage(message); //TODO:
     }
 
     public void addFriendRequest(FriendRequest friendRequest) { //adds to pending friend request to sender & receiver
@@ -85,10 +82,10 @@ public class User {
         String declineMsg = "Friend request was declined";
         String pendingMsg = "Friend request is pending";
 
-        if(friendRequest.getStatus() == 1) {
+        if(friendRequest.getStatus() == FriendRequest.FriendRequestStatus.ACCEPTED) {
             return acceptMsg;
         }
-        else if (friendRequest.getStatus() == 2) {
+        else if (friendRequest.getStatus() == FriendRequest.FriendRequestStatus.DECLINED) {
             return declineMsg;
         }
         else {
@@ -101,10 +98,10 @@ public class User {
         User receiver = friendRequest.getReceiver();
 
         //check if status is pending AND current user is the actual receiver of this friendRequest
-        if (friendRequest.getStatus() == 0 && this.equals(receiver)) {
+        if (friendRequest.getStatus() == FriendRequest.FriendRequestStatus.PENDING && this.equals(receiver)) {
             sender.friendList.add(receiver);
             receiver.friendList.add(sender);
-            friendRequest.setStatus(1); //sets status to Accepted
+            friendRequest.setStatus(FriendRequest.FriendRequestStatus.ACCEPTED); //sets status to Accepted
 
             sendNotification(sender, new StatusMessage(notificationMsg(friendRequest)));
             sendNotification(receiver, new StatusMessage(notificationMsg(friendRequest)));
@@ -120,8 +117,8 @@ public class User {
     public void declineFriendRequest(FriendRequest friendRequest) {
         User sender = friendRequest.getSender();
         User receiver = friendRequest.getReceiver();
-        if (friendRequest.getStatus() == 0 && this.equals(receiver)) {
-            friendRequest.setStatus(2); //sets status to Declined
+        if (friendRequest.getStatus() == FriendRequest.FriendRequestStatus.PENDING && this.equals(receiver)) {
+            friendRequest.setStatus(FriendRequest.FriendRequestStatus.DECLINED); //sets status to Declined
             sendNotification(sender, new StatusMessage(notificationMsg(friendRequest)));
             sendNotification(receiver, new StatusMessage(notificationMsg(friendRequest)));
             removeFriendRequest(friendRequest);
