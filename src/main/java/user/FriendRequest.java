@@ -8,16 +8,18 @@ import lombok.Setter;
 public class FriendRequest {
     private User sender;
     private User receiver;
-    private int status;
+    private FriendRequestStatus status;
 
-    private static final int pending = 0;
-    private static final int accepted = 1;
-    private static final int declined = 2;
+    enum FriendRequestStatus {
+        PENDING,
+        ACCEPTED,
+        DECLINED
+    }
 
     public FriendRequest(User sender, User receiver) {
         this.sender = sender;
         this.receiver = receiver;
-        this.status = pending;
+        this.status = FriendRequestStatus.PENDING;
     }
 
 }
