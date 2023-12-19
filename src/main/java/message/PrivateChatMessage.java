@@ -15,7 +15,7 @@ public class PrivateChatMessage extends Message {
     private User receiver;
 
     public PrivateChatMessage(int messageId, String data, User sender, User receiver) {
-        super(messageId);
+        super();
         this.data = data;
         this.sender = sender;
         this.receiver = receiver;

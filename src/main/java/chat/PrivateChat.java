@@ -11,7 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Getter
-@Setter
 @ToString
 @EqualsAndHashCode(callSuper = true)
 public class PrivateChat extends Chat {
@@ -19,8 +18,8 @@ public class PrivateChat extends Chat {
     private User secondMember;
     private List<PrivateChatMessage> messages;
 
-    public PrivateChat(int chatId,  User firstMember, User secondMember) {
-        super(chatId);
+    public PrivateChat(User firstMember, User secondMember) {
+        super();
         this.firstMember = firstMember;
         this.secondMember = secondMember;
         this.messages = new LinkedList<>();

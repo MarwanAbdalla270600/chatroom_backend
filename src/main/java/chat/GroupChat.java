@@ -11,7 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Getter
-@Setter
 @ToString
 @EqualsAndHashCode(callSuper = true)
 public class GroupChat extends Chat {
@@ -20,8 +19,8 @@ public class GroupChat extends Chat {
     private int maxMembers;
     private List<GroupChatMessage> messages;
 
-    public GroupChat(int chatId, String groupName, List<User> members, int maxMembers) {
-        super(chatId);
+    public GroupChat(String groupName, List<User> members, int maxMembers) {
+        super();
         this.groupName = groupName;
         this.members = members;
         this.maxMembers = maxMembers;
