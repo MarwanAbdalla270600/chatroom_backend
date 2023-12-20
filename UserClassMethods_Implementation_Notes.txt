@@ -1,8 +1,0 @@
-1. constructor design geändert (messageId/ChatId wird automatisch generiert bei Message und Chat)
-2. Classen hinzugefügt StatusChat und FriendRequest. Frage: sollen wir Netzwerkkommunikation/Datendesign trennen?
-3. removeFriends entfernt friends immer bei beiden (asynchrone Friendlists machen keinen Sinn)
-
-
-ToDo:
-error handling
-code testen (JUnit oder einfach in Main..)
