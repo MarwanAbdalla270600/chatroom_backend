@@ -2,6 +2,10 @@ package user;
 
 import chat.GroupChat;
 import chat.PrivateChat;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,17 +17,20 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-
+@Entity
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
     @EqualsAndHashCode.Include
+    @Id                                                     //Ich glaub wir haben uns darauf geeinigt dass der Username auch gleichzeitig die ID sein soll.
+    @Column(name = "username")
     private String username;
 
+    @Column(name = "password")
     private String password;
-    private Set<User> friendList;
+    private Set<User> friendList;                       //Weiß nicht wie das genau in der Datenbank realisiert werden soll.
     private Set<GroupChat> groupChats;
     private Set<PrivateChat> privateChats;
     private ArrayList<FriendRequest> friendRequests;
