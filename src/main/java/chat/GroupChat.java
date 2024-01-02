@@ -1,5 +1,6 @@
 package chat;
 
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,14 +10,24 @@ import user.User;
 
 import java.util.LinkedList;
 import java.util.List;
-
+@Entity
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = true)
 public class GroupChat extends Chat {
+    @Column(name = "groupName", nullable = false)
     private String groupName;
+
+    @ManyToMany
+    @JoinTable(
+            name = "group_chat_members",
+            joinColumns = @JoinColumn(name = "chat_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id") //
+    ) //establish a many-to-many relationship between GroupChat and User using a join table named "group_chat_members"
     private List<User> members;
     private int maxMembers;
+
+    @OneToMany
     private List<GroupChatMessage> messages;
 
     public GroupChat(String groupName, List<User> members, int maxMembers) {

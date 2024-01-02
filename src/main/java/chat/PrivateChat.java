@@ -1,5 +1,8 @@
 package chat;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,13 +12,16 @@ import user.User;
 
 import java.util.LinkedList;
 import java.util.List;
-
+@Entity
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = true)
 public class PrivateChat extends Chat {
+    @ManyToOne
     private User firstMember;
+    @ManyToOne
     private User secondMember;
+    @OneToMany
     private List<PrivateChatMessage> messages;
 
     public PrivateChat(User firstMember, User secondMember) {
