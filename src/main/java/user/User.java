@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
+
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
     @EqualsAndHashCode.Include
@@ -36,6 +36,12 @@ public class User {
         this.groupChats = new HashSet<>();
         this.privateChats = new HashSet<>();
         this.friendRequests = new ArrayList<>();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' + '}';
     }
 
     public void setUsername(String username) {
@@ -100,7 +106,7 @@ public class User {
     }
 
     public void sendFriendRequest(User receiver) {
-        if(receiver != null && !this.friendList.contains(receiver) && !hasSentRequest(receiver)) {
+        if(receiver != null && !this.friendList.contains(receiver) && !hasPendingRequestsWith(receiver)) {
             FriendRequestMessage friendRequestMessage = new FriendRequestMessage(this, receiver);
             FriendRequest friendRequest = new FriendRequest(this, receiver);
             addFriendRequest(friendRequest);
@@ -112,9 +118,15 @@ public class User {
         }
     }
 
-    public boolean hasSentRequest(User receiver) {
-        for (FriendRequest request : friendRequests) {
-            if (request.getReceiver().equals(receiver) && request.getStatus() == FriendRequest.FriendRequestStatus.PENDING) {
+    public boolean hasPendingRequestsWith(User otherUser) {
+        for (FriendRequest request : this.friendRequests) {
+            if (request.getReceiver().equals(otherUser) && request.getStatus() == FriendRequest.FriendRequestStatus.PENDING) {
+                return true;
+            }
+        }
+        //checking if one request between two users already exists (in both directions)
+        for (FriendRequest request : otherUser.getFriendRequests()) {
+            if (request.getReceiver().equals(this) && request.getStatus() == FriendRequest.FriendRequestStatus.PENDING) {
                 return true;
             }
         }
