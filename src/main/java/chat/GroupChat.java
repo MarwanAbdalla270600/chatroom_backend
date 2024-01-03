@@ -25,9 +25,11 @@ public class GroupChat extends Chat {
             inverseJoinColumns = @JoinColumn(name = "user_id") //
     ) //establish a many-to-many relationship between GroupChat and User using a join table named "group_chat_members"
     private List<User> members;
+
+    @Column(name = "max_members")
     private int maxMembers;
 
-    @OneToMany
+    @OneToMany(mappedBy = "groupChat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<GroupChatMessage> messages;
 
     public GroupChat(String groupName, List<User> members, int maxMembers) {
@@ -35,6 +37,10 @@ public class GroupChat extends Chat {
         this.groupName = groupName;
         this.members = members;
         this.maxMembers = maxMembers;
-        this.messages = new LinkedList<>();
+        //this.messages = new LinkedList<>();
+    }
+
+    public GroupChat() {
+
     }
 }

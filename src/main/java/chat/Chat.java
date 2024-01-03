@@ -22,14 +22,11 @@ public abstract class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int chatId;
 
-    @Column(name = "creation_date", nullable = false) //Heißt dasss das Feld nicht leer sein darf
+    @Column(name = "creation_date", nullable = false) //Heißt dass das Feld nicht leer sein darf
     private LocalDateTime date;
-
-    @OneToMany(mappedBy = "Chat")
-    private List<Message> messages;
 
     public Chat() {
         this.date = LocalDateTime.now();
-        this.messages = new LinkedList<>();
+        //this.messages = new LinkedList<>();
     }
 }
