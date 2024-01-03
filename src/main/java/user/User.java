@@ -38,6 +38,34 @@ public class User {
         this.friendRequests = new ArrayList<>();
     }
 
+    public void setUsername(String username) {
+        if (isValidUsername(username)) {
+            this.username = username;
+        } else {
+            throw new IllegalArgumentException("Invalid username " +
+                    "(Usernames must be min. 3 but max 25 char of length " +
+                    "and only letters and digits");
+        }
+    }
+
+    private boolean isValidUsername(String username) {
+        if(username == null) return false;
+
+        int minLength = 3;
+        int maxLength = 25;
+        if (username.length() < minLength || username.length() > maxLength) {
+            return false;
+        }
+
+        char[] lettersUsername = username.toCharArray();
+        for (char letter : lettersUsername) {
+            if(!Character.isLetterOrDigit(letter)) return false;
+        }
+        return true;
+    }
+
+    //TODO: implement a isUniqueUsername with Database query (username list)
+
     public void sendFriendRequest(User receiver) {
         if(receiver != null && !this.friendList.contains(receiver) && !hasSentRequest(receiver)) {
             FriendRequestMessage friendRequestMessage = new FriendRequestMessage(this, receiver);
