@@ -197,4 +197,20 @@ public class User {
         }
     }
 
+    public User findFriend(String username) {
+        //TODO: Frage ob wir nur aus der friendList einen Friend suchen sollen oder aus dem ganzen System;
+        if (username == null || username.isEmpty()) {
+            return null;
+        }
+
+        for (User friend : friendList) {
+            if (friend.getUsername().equalsIgnoreCase(username)) {
+                return friend;
+            }
+        }
+
+        return null;
+    }
+
+
 }
