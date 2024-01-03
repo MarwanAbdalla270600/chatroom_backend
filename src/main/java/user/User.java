@@ -121,8 +121,9 @@ public class User {
         return false;
     }
     public void sendNotification(User user, StatusMessage message) {
-        //user.statusChat.addStatusMessage(message); //TODO:
+        System.out.println("Notification for " + user.getUsername() + ": " + message.getData());
     }
+
 
     public void addFriendRequest(FriendRequest friendRequest) { //adds to pending friend request to sender & receiver
         User sender = friendRequest.getSender();
