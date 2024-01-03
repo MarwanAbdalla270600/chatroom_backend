@@ -210,8 +210,7 @@ public class User {
         }
     }
 
-    public User findFriend(String username) {
-        //TODO: Frage ob wir nur aus der friendList einen Friend suchen sollen oder aus dem ganzen System;
+    public User findFriendFromFriendlist(String username) { //bin unsicher ob wir die methode überhaupt im GUI brauchen
         if (username == null || username.isEmpty()) {
             return null;
         }
@@ -225,5 +224,6 @@ public class User {
         return null;
     }
 
+    //TODO: implement findFriendFromSystem um neue Freunde zu adden
 
 }
