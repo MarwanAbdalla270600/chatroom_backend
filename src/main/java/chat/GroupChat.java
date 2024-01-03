@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class GroupChat extends Chat {
+public class GroupChat extends Chat<GroupChatMessage> {
     private String groupName;
     private List<User> members;
     private int maxMembers;
