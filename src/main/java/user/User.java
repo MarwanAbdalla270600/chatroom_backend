@@ -32,7 +32,6 @@ public class User {
     public User(String username, String password) {
         setUsername(username);
         setPassword(password);
-        this.password = password;
         this.friendList = new HashSet<>();
         this.groupChats = new HashSet<>();
         this.privateChats = new HashSet<>();
