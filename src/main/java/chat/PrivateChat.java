@@ -22,12 +22,15 @@ public class PrivateChat extends Chat {
         this.firstMember = firstMember;
         this.secondMember = secondMember;
         this.messages = new LinkedList<>();
+        firstMember.getPrivateChats().add(this);
+        secondMember.getPrivateChats().add(this);
     }
 
     public void sendMessage(User sender, String messageText) {
         User receiver = sender.equals(firstMember) ? secondMember : firstMember;
         PrivateChatMessage message = new PrivateChatMessage(messageText, sender, receiver);
         messages.add(message);
+
     }
 
 }
