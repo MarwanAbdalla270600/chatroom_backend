@@ -4,12 +4,14 @@ import user.User;
 
 public class Main {
     public static void main(String[] args) {
+        //Creating Users and Checking for Valid Usernames & Password
+
         User adam = new User("Adam", "Passwort123");
         User bura = new User("Bura", "ireer123");
         User kevin = new User("Kevin", "123456pw");
         User dina = new User("Dina", "lo1lok");
         User dummy = new User("Dummy", "yeah123");
-        User yolo = new User("Yolo", "blabla123");
+        User yolo = new User("Yolo", "blabla1");
 
         //Simulation FriendRequests:
         adam.sendFriendRequest(bura); //Adam sendet Bura eine Freundschaftsanfrage
@@ -96,7 +98,20 @@ public class Main {
         PrivateChat chatAdamDina = new PrivateChat(adam, dina);
         chatAdamDina.sendMessage(adam, "Griasdi Dina");
         chatAdamDina.sendMessage(dina, "Servus Adam");
-        System.out.println("ALl Chat messages sent: " + chatAdamDina.getMessages()); // würde im Chat von Adam u. Dina angezeogt werden
+        System.out.println("All Chat messages sent: " + chatAdamDina.getMessages()); // würde im Chat von Adam u. Dina angezeogt werden
+        System.out.println(adam.getPrivateChats());
+
+        //Test: Trying to send to a non-Friend a Message
+        PrivateChat chatYoloAdam = new PrivateChat(yolo, adam);
+        chatYoloAdam.sendMessage(yolo, "Ahoi");
+        System.out.println("All Chat messages sent: " + chatYoloAdam.getMessages()); // würde im Chat von Adam u. Dina angezeogt werden
+        System.out.println(yolo.getPrivateChats());
+
+        System.out.println("Number of chats of Adam: " + adam.getPrivateChats().size());
+        System.out.println("Number of chats of Dina: " + dina.getPrivateChats().size());
+        System.out.println("Number of chats of Yolo: " + yolo.getPrivateChats().size());
+        System.out.println("Number of chats of Bura: " + bura.getPrivateChats().size());
+        System.out.println("Number of chats of Kevin: " + kevin.getPrivateChats().size());
 
     } //psvm
 }
