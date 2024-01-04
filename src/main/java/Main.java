@@ -94,18 +94,26 @@ public class Main {
         //Sending Chat Messages: Adam -> Bura; Dina -> Adam;
         System.out.println("\n Sending Messages Simulation: \n");
         System.out.println("Adam sends Dina a message: ");
+        try {
+            PrivateChat chatAdamDina = PrivateChat.createChatIfFriends(adam, dina);
+            chatAdamDina.sendMessage(adam, "Griasdi Dina");
+            chatAdamDina.sendMessage(dina, "Servus Adam");
+            System.out.println("All Chat messages sent: " + chatAdamDina.getMessages()); // würde im Chat von Adam u. Dina angezeogt werden
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
 
-        PrivateChat chatAdamDina = new PrivateChat(adam, dina);
-        chatAdamDina.sendMessage(adam, "Griasdi Dina");
-        chatAdamDina.sendMessage(dina, "Servus Adam");
-        System.out.println("All Chat messages sent: " + chatAdamDina.getMessages()); // würde im Chat von Adam u. Dina angezeogt werden
         System.out.println(adam.getPrivateChats());
 
-        //Test: Trying to send to a non-Friend a Message
-        PrivateChat chatYoloAdam = new PrivateChat(yolo, adam);
-        chatYoloAdam.sendMessage(yolo, "Ahoi");
-        System.out.println("All Chat messages sent: " + chatYoloAdam.getMessages()); // würde im Chat von Adam u. Dina angezeogt werden
-        System.out.println(yolo.getPrivateChats());
+        //Test: Trying to send to a non-Friend a Message --> should Fail
+        try {
+            PrivateChat chatYoloAdam = PrivateChat.createChatIfFriends(yolo, adam);
+            chatYoloAdam.sendMessage(yolo, "Ahoi");
+            System.out.println("All Chat messages sent: " + chatYoloAdam.getMessages()); // würde im Chat von Adam u. Dina angezeogt werden
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println(yolo.getPrivateChats()); // should be empty
 
         System.out.println("Number of chats of Adam: " + adam.getPrivateChats().size());
         System.out.println("Number of chats of Dina: " + dina.getPrivateChats().size());

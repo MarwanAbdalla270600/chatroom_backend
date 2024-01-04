@@ -17,12 +17,20 @@ public class PrivateChat extends Chat {
     private List<PrivateChatMessage> messages;
 
     public PrivateChat(User firstMember, User secondMember) {
-        super();
-        this.firstMember = firstMember;
-        this.secondMember = secondMember;
-        this.messages = new LinkedList<>();
-        firstMember.getPrivateChats().add(this);
-        secondMember.getPrivateChats().add(this);
+            super();
+            this.firstMember = firstMember;
+            this.secondMember = secondMember;
+            this.messages = new LinkedList<>();
+            firstMember.getPrivateChats().add(this);
+            secondMember.getPrivateChats().add(this);
+        }
+
+    public static PrivateChat createChatIfFriends(User user1, User user2) {
+        if(user1.getFriendList().contains(user2)) {
+            return new PrivateChat(user1, user2);
+        } else {
+            throw new IllegalArgumentException("Users must be friends to send each other messages");
+        }
     }
 
     public void sendMessage(User sender, String messageText) {
