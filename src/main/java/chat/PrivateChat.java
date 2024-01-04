@@ -2,7 +2,6 @@ package chat;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import message.PrivateChatMessage;
 import user.User;
@@ -25,7 +24,7 @@ public class PrivateChat extends Chat {
         this.messages = new LinkedList<>();
     }
 
-    public void sendMsg(User sender, String messageText) {
+    public void sendMessage(User sender, String messageText) {
         User receiver = sender.equals(firstMember) ? secondMember : firstMember;
         PrivateChatMessage message = new PrivateChatMessage(messageText, sender, receiver);
         messages.add(message);

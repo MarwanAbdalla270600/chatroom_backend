@@ -1,3 +1,4 @@
+import chat.PrivateChat;
 import user.FriendRequest;
 import user.User;
 
@@ -82,5 +83,15 @@ public class Main {
         yolo.removeFriend(dummy); //Yolo entfernt Dummy als Friend
         System.out.println("Friendlist of Dummy consists of: " + dummy.getFriendList()); //should remove friend from both lists
         System.out.println("Friendlist of Yolo consists of: " + yolo.getFriendList()); //both should be empty
-    }
+
+        //Sending Chat Messages: Adam -> Bura; Dina -> Adam;
+        System.out.println("\n Sending Messages Simulation: \n");
+        System.out.println("Adam sends Dina a message: ");
+
+        PrivateChat chatAdamDina = new PrivateChat(adam, dina);
+        chatAdamDina.sendMessage(adam, "Griasdi Dina");
+        chatAdamDina.sendMessage(dina, "Servus Adam");
+        System.out.println("ALl Chat messages sent: " + chatAdamDina.getMessages()); // würde im Chat von Adam u. Dina angezeogt werden
+
+    } //psvm
 }
