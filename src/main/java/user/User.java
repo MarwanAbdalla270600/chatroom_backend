@@ -167,7 +167,7 @@ public class User {
         }
     }
 
-    public void acceptFriendRequest(FriendRequest friendRequest) {
+    public boolean acceptFriendRequest(FriendRequest friendRequest) {
         User sender = friendRequest.getSender();
         User receiver = friendRequest.getReceiver();
 
@@ -181,14 +181,13 @@ public class User {
             sendNotification(receiver, new StatusMessage(notificationMsg(friendRequest)));
 
             removeFriendRequest(friendRequest);
-
-        }
-        else {
-            //TODO: irgend a error handling
+            return true;
+        } else {
+            return false;
         }
     }
 
-    public void declineFriendRequest(FriendRequest friendRequest) {
+    public boolean declineFriendRequest(FriendRequest friendRequest) {
         User sender = friendRequest.getSender();
         User receiver = friendRequest.getReceiver();
         if (friendRequest.getStatus() == FriendRequest.FriendRequestStatus.PENDING && this.equals(receiver)) {
@@ -196,9 +195,9 @@ public class User {
             sendNotification(sender, new StatusMessage(notificationMsg(friendRequest)));
             sendNotification(receiver, new StatusMessage(notificationMsg(friendRequest)));
             removeFriendRequest(friendRequest);
-        }
-        else {
-            //TODO: error handling
+            return true;
+        } else {
+            return false;
         }
     }
 

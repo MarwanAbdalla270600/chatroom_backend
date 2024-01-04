@@ -44,16 +44,21 @@ public class Main {
         //Accept & Decline of FriendRequests:
         System.out.println("\nTesting of Accepting & Declining of Requests: \n");
 
-        System.out.println("Empty list Adam before accepting Friend Request: " + adam.getFriendList()); // Friendslist sollte noch leer sein, weil nix accepted
+        System.out.println("Empty list of Adam before accepting Friend Request: " + adam.getFriendList()); // Friendslist sollte noch leer sein, weil nix accepted
 
+        boolean isRequestAccepted = adam.acceptFriendRequest(adam.getFriendRequests().get(1)); // Adam accepts Dina's request
+        System.out.println("Was the friend request accepted? " + isRequestAccepted);
+        System.out.println("Adam's friends list after accepting: " + adam.getFriendList());
 
-        adam.acceptFriendRequest(adam.getFriendRequests().get(1)); //Adam accepts Dinas Anfrage
-        bura.acceptFriendRequest(bura.getFriendRequests().get(0)); //Bura accept Adams Anfrage
+        isRequestAccepted = bura.acceptFriendRequest(bura.getFriendRequests().get(0)); // Bura accepts Adam's request
+        System.out.println("Was Bura's friend request accepted? " + isRequestAccepted);
 
         System.out.println("\nDeclining a Pending Request: \n");
         System.out.println("Pending Requests for Dina before Declining Friend Request: " + dina.getFriendRequests().size() + " " + dina.getFriendRequests().get(0));
-        dina.declineFriendRequest(dina.getFriendRequests().get(0)); //Dina declines Kevins Anfrage
-        System.out.println("Pendng Requests for Dina: " + dina.getFriendRequests().size());
+        boolean isRequestDeclined = dina.declineFriendRequest(dina.getFriendRequests().get(0)); // Dina declines Kevin's request
+        System.out.println("Was the friend request declined? " + isRequestDeclined);
+        System.out.println("Pending Requests for Dina after declining: " + dina.getFriendRequests().size());
+
 
         //Show updated Friendlist of each User:
         System.out.println("\nPrinting Friendlist of each user after accepting/declining pending requests: \n");
