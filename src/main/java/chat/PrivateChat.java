@@ -44,6 +44,7 @@ public class PrivateChat extends Chat {
         return "PrivateChat{" +
                 "chatId=" + getChatId() +
                 ", members=[" + firstMember.getUsername() + ", " + secondMember.getUsername() + "]" +
+                ", time=[" + getDate() +
                 "}";
     }
 
