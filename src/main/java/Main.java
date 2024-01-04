@@ -5,11 +5,11 @@ import user.User;
 public class Main {
     public static void main(String[] args) {
         User adam = new User("Adam", "Passwort123");
-        User bura = new User("Bura", "iwas123");
+        User bura = new User("Bura", "ireer123");
         User kevin = new User("Kevin", "123456pw");
-        User dina = new User("Dina", "lolok123");
-        User dummy = new User("Dummy", "yeah");
-        User yolo = new User("Yolo", "blabla");
+        User dina = new User("Dina", "lo1lok");
+        User dummy = new User("Dummy", "yeah123");
+        User yolo = new User("Yolo", "blabla123");
 
         //Simulation FriendRequests:
         adam.sendFriendRequest(bura); //Adam sendet Bura eine Freundschaftsanfrage

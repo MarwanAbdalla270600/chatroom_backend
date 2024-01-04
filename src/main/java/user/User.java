@@ -29,8 +29,9 @@ public class User {
     private ArrayList<FriendRequest> friendRequests;
 
 
-    public User( String username, String password) {
-        this.username = username;
+    public User(String username, String password) {
+        setUsername(username);
+        setPassword(password);
         this.password = password;
         this.friendList = new HashSet<>();
         this.groupChats = new HashSet<>();
