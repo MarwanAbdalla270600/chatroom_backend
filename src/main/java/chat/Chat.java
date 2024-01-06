@@ -25,13 +25,15 @@ public abstract class Chat<T extends Message> {
     @Column(name = "creation_date", nullable = false) //Heißt dass das Feld nicht leer sein darf
     private LocalDateTime date;
     private static int nextId = 0;
+    @OneToMany(mappedBy = "chat") // Assuming 'chat' is a field in Message
     private List<Message> messages;
+
 
     public Chat() {
         this.date = LocalDateTime.now();
         //this.messages = new LinkedList<>();
     }
     public List<T> getMessages() {
-        return messages;
+        return (List<T>) messages;
     }
 }
