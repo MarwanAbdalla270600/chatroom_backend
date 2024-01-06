@@ -15,17 +15,20 @@ import java.util.LinkedList;
 @Setter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public abstract class Chat {
+public abstract class Chat<T extends Message> {
     @EqualsAndHashCode.Include
     private int chatId;
 
     private LocalDateTime date;
     private static int nextId = 0;
-    private List<Message> messages;
+    private List<T> messages;
 
     public Chat() {
         this.chatId = nextId++;
         this.date = LocalDateTime.now();
         this.messages = new LinkedList<>();
+    }
+    public List<T> getMessages() {
+        return messages;
     }
 }
