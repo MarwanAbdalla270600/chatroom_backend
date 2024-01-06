@@ -16,7 +16,7 @@ import java.util.LinkedList;
 @Setter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public abstract class Chat {
+public abstract class Chat<T extends Message> {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +24,14 @@ public abstract class Chat {
 
     @Column(name = "creation_date", nullable = false) //Heißt dass das Feld nicht leer sein darf
     private LocalDateTime date;
+    private static int nextId = 0;
+    private List<Message> messages;
 
     public Chat() {
         this.date = LocalDateTime.now();
         //this.messages = new LinkedList<>();
+    }
+    public List<T> getMessages() {
+        return messages;
     }
 }

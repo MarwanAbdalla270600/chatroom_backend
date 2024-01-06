@@ -14,8 +14,7 @@ import java.util.List;
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class GroupChat extends Chat {
-    @Column(name = "groupName", nullable = false)
+public class GroupChat extends Chat<GroupChatMessage> {
     private String groupName;
 
     @ManyToMany

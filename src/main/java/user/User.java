@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@ToString
+
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
     @EqualsAndHashCode.Include
@@ -56,9 +56,9 @@ public class User {
     //private ArrayList<FriendRequest> friendRequests;
     private List<FriendRequest> friendRequests = new ArrayList<>();
 
-    public User( String username, String password) {
-        this.username = username;
-        this.password = password;
+    public User(String username, String password) {
+        setUsername(username);
+        setPassword(password);
         this.friendList = new HashSet<>();
         this.groupChats = new HashSet<>();
         this.privateChats = new HashSet<>();
@@ -69,8 +69,76 @@ public class User {
 
     }
 
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' + '}';
+    }
+
+    public void setUsername(String username) {
+        if (isValidUsername(username)) {
+            this.username = username;
+        } else {
+            throw new IllegalArgumentException("Invalid username " +
+                    "(Usernames must be min. 3 but max 25 char of length " +
+                    "and only letters and digits");
+        }
+    }
+
+    private boolean isValidUsername(String username) {
+        if(username == null) return false;
+
+        int minLength = 3;
+        int maxLength = 25;
+        if (username.length() < minLength || username.length() > maxLength) {
+            return false;
+        }
+
+        char[] lettersUsername = username.toCharArray();
+        for (char character : lettersUsername) {
+            if(!Character.isLetterOrDigit(character)) return false;
+        }
+        return true;
+    }
+
+    //TODO: implement a isUniqueUsername with Database query (username list)
+
+    public void setPassword(String password) {
+        if (isValidPassword(password)) {
+            this.password = password;
+        } else {
+            throw new IllegalArgumentException("Invalid password" +
+                    "(Passwords must be at least 6 char long, and must " +
+                    "contain BOTH digits and letters");
+        }
+    }
+    private boolean isValidPassword(String password) {
+        if(password == null) return false;
+
+        int minLength = 6;
+        int maxLength = 25;
+        if(password.length() < minLength || password.length() > maxLength) {
+            return false;
+        }
+
+        boolean containsDigit = false;
+        boolean containsLetter = false;
+        char[] lettersPassword = password.toCharArray();
+
+        for (char character : lettersPassword) {
+            if(Character.isDigit(character)) {
+                containsDigit = true;
+            }
+            else if(Character.isLetter(character)) {
+                containsLetter = true;
+            }
+        }
+        return containsDigit && containsLetter;
+    }
+
     public void sendFriendRequest(User receiver) {
-        if(receiver != null && !this.friendList.contains(receiver) && !hasSentRequest(receiver)) {
+        if(receiver != null && !this.friendList.contains(receiver) && !hasPendingRequestsWith(receiver)) {
             FriendRequestMessage friendRequestMessage = new FriendRequestMessage(this, receiver);
             FriendRequest friendRequest = new FriendRequest(this, receiver);
             addFriendRequest(friendRequest);
@@ -82,17 +150,24 @@ public class User {
         }
     }
 
-    public boolean hasSentRequest(User receiver) {
-        for (FriendRequest request : friendRequests) {
-            if (request.getReceiver().equals(receiver) && request.getStatus() == FriendRequest.FriendRequestStatus.PENDING) {
+    public boolean hasPendingRequestsWith(User otherUser) {
+        for (FriendRequest request : this.friendRequests) {
+            if (request.getReceiver().equals(otherUser) && request.getStatus() == FriendRequest.FriendRequestStatus.PENDING) {
+                return true;
+            }
+        }
+        //checking if one request between two users already exists (in both directions)
+        for (FriendRequest request : otherUser.getFriendRequests()) {
+            if (request.getReceiver().equals(this) && request.getStatus() == FriendRequest.FriendRequestStatus.PENDING) {
                 return true;
             }
         }
         return false;
     }
     public void sendNotification(User user, StatusMessage message) {
-        //user.statusChat.addStatusMessage(message); //TODO:
+        System.out.println("Notification for " + user.getUsername() + ": " + message.getData());
     }
+
 
     public void addFriendRequest(FriendRequest friendRequest) { //adds to pending friend request to sender & receiver
         User sender = friendRequest.getSender();
@@ -124,7 +199,7 @@ public class User {
         }
     }
 
-    public void acceptFriendRequest(FriendRequest friendRequest) {
+    public boolean acceptFriendRequest(FriendRequest friendRequest) {
         User sender = friendRequest.getSender();
         User receiver = friendRequest.getReceiver();
 
@@ -138,14 +213,13 @@ public class User {
             sendNotification(receiver, new StatusMessage(notificationMsg(friendRequest)));
 
             removeFriendRequest(friendRequest);
-
-        }
-        else {
-            //TODO: irgend a error handling
+            return true;
+        } else {
+            return false;
         }
     }
 
-    public void declineFriendRequest(FriendRequest friendRequest) {
+    public boolean declineFriendRequest(FriendRequest friendRequest) {
         User sender = friendRequest.getSender();
         User receiver = friendRequest.getReceiver();
         if (friendRequest.getStatus() == FriendRequest.FriendRequestStatus.PENDING && this.equals(receiver)) {
@@ -153,9 +227,9 @@ public class User {
             sendNotification(sender, new StatusMessage(notificationMsg(friendRequest)));
             sendNotification(receiver, new StatusMessage(notificationMsg(friendRequest)));
             removeFriendRequest(friendRequest);
-        }
-        else {
-            //TODO: error handling
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -166,5 +240,21 @@ public class User {
             user.friendList.remove(this);
         }
     }
+
+    public User findFriendFromFriendlist(String username) { //bin unsicher ob wir die methode überhaupt im GUI brauchen
+        if (username == null || username.isEmpty()) {
+            return null;
+        }
+
+        for (User friend : friendList) {
+            if (friend.getUsername().equalsIgnoreCase(username)) {
+                return friend;
+            }
+        }
+
+        return null;
+    }
+
+    //TODO: implement findFriendFromSystem um neue Freunde zu adden
 
 }
