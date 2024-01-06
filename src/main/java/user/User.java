@@ -8,26 +8,53 @@ import lombok.ToString;
 import lombok.EqualsAndHashCode;
 import message.FriendRequestMessage;
 import message.StatusMessage;
-
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-
+@Entity
 @Getter
 @Setter
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
     @EqualsAndHashCode.Include
+    @Id                                                     //Ich glaub wir haben uns darauf geeinigt dass der Username auch gleichzeitig die ID sein soll.
+    @Column(name = "username")
     private String username;
 
+    @Column(name = "password")
     private String password;
-    private Set<User> friendList;
-    private Set<GroupChat> groupChats;
-    private Set<PrivateChat> privateChats;
-    private ArrayList<FriendRequest> friendRequests;
 
+    @ManyToMany
+    @JoinTable(
+            name="user_friends",
+            joinColumns = @JoinColumn(name = "user_username", referencedColumnName = "username"),       //spezifiziert die Spalte für den Primärschlüssel des Users
+            inverseJoinColumns = @JoinColumn(name="friend_username", referencedColumnName = "username") //spezifiziert die Spalte für den Fremdschlüssel des Freundes
+    )
+    private Set<User> friendList;
+
+    @ManyToMany
+    @JoinTable(
+            name="user_groupChat",
+            joinColumns = @JoinColumn(name="username", referencedColumnName = "username"),
+            inverseJoinColumns = @JoinColumn(name = "groupChat_id",referencedColumnName = "chatId")
+    )
+    private Set<GroupChat> groupChats;
+
+    @ManyToMany
+    @JoinTable(
+            name="user_privateChat",
+            joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"),
+            inverseJoinColumns = @JoinColumn(name = "privateChat_id", referencedColumnName = "chatId")
+    )
+    private Set<PrivateChat> privateChats;
+
+    @OneToMany(mappedBy = "receiver")
+    //private ArrayList<FriendRequest> friendRequests;
+    private List<FriendRequest> friendRequests = new ArrayList<>();
 
     public User(String username, String password) {
         setUsername(username);
@@ -37,6 +64,11 @@ public class User {
         this.privateChats = new HashSet<>();
         this.friendRequests = new ArrayList<>();
     }
+
+    public User() {
+
+    }
+
 
     @Override
     public String toString() {
