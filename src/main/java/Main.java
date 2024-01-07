@@ -6,12 +6,14 @@ public class Main {
     public static void main(String[] args) {
         //Creating Users and Checking for Valid Usernames & Password
 
-        User adam = new User("Adam", "Passwort123");
-        User bura = new User("Bura", "ireer123");
-        User kevin = new User("Kevin", "123456pw");
-        User dina = new User("Dina", "lo1lok");
-        User dummy = new User("Dummy", "yeah123");
-        User yolo = new User("Yolo", "blabla1");
+        User adam = new User("Adam", "Passw123", 'm');
+        User bura = new User("Bura", "iwas123", 'm');
+        User kevin = new User("Kevin", "123456pw", 'm');
+        User dina = new User("Dina", "lo1lok", 'w');
+        User dummy = new User("Dummy", "yeah123", 'w');
+        User yolo = new User("Yolo", "blabla1", 'w');
+
+
 
         //Simulation FriendRequests:
         adam.sendFriendRequest(bura); //Adam sendet Bura eine Freundschaftsanfrage

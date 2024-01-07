@@ -4,7 +4,6 @@ import chat.GroupChat;
 import chat.PrivateChat;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.EqualsAndHashCode;
 import message.FriendRequestMessage;
 import message.StatusMessage;
@@ -27,6 +26,8 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    private char gender;
 
     @ManyToMany
     @JoinTable(
@@ -56,9 +57,10 @@ public class User {
     //private ArrayList<FriendRequest> friendRequests;
     private List<FriendRequest> friendRequests = new ArrayList<>();
 
-    public User(String username, String password) {
+    public User(String username, String password, char gender) {
         setUsername(username);
         setPassword(password);
+        this.gender = gender;
         this.friendList = new HashSet<>();
         this.groupChats = new HashSet<>();
         this.privateChats = new HashSet<>();
@@ -73,7 +75,8 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' + '}';
+                "username='" + getUsername() + '\'' +
+                "gender='" + getGender() + '}';
     }
 
     public void setUsername(String username) {
@@ -139,7 +142,7 @@ public class User {
 
     public void sendFriendRequest(User receiver) {
         if(receiver != null && !this.friendList.contains(receiver) && !hasPendingRequestsWith(receiver)) {
-            FriendRequestMessage friendRequestMessage = new FriendRequestMessage(this, receiver);
+            FriendRequestMessage friendRequestMessage = new FriendRequestMessage(this, receiver); //muss dann geändert werden
             FriendRequest friendRequest = new FriendRequest(this, receiver);
             addFriendRequest(friendRequest);
 
