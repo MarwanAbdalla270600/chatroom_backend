@@ -8,6 +8,8 @@ import user.User;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+
 @Entity
 @Getter
 
@@ -38,6 +40,19 @@ public class PrivateChat extends Chat {
                 ", time=[" + getDate() +
                 ", messages[" + getMessages() +
                 "}";
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PrivateChat that = (PrivateChat) o;
+        return (Objects.equals(firstMember, that.firstMember) && Objects.equals(secondMember, that.secondMember)) ||
+                (Objects.equals(firstMember, that.secondMember) && Objects.equals(secondMember, that.firstMember));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstMember, secondMember) + Objects.hash(secondMember, firstMember);
     }
 
 }
