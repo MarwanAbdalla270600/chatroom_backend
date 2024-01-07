@@ -86,7 +86,7 @@ public class User {
         }
     }
 
-    private boolean isValidUsername(String username) {
+    private static boolean isValidUsername(String username) {
         if(username == null) return false;
 
         int minLength = 3;
@@ -113,7 +113,7 @@ public class User {
                     "contain BOTH digits and letters");
         }
     }
-    private boolean isValidPassword(String password) {
+    private static boolean isValidPassword(String password) {
         if(password == null) return false;
 
         int minLength = 6;
