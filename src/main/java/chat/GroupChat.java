@@ -10,12 +10,17 @@ import user.User;
 
 import java.util.LinkedList;
 import java.util.List;
+
 @Entity
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = true)
 public class GroupChat extends Chat<GroupChatMessage> {
+    @Column(name = "group_name")
     private String groupName;
+
+    @ManyToOne
+    private User creator;
 
     @ManyToMany
     @JoinTable(
@@ -31,13 +36,24 @@ public class GroupChat extends Chat<GroupChatMessage> {
     @OneToMany(mappedBy = "groupChat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<GroupChatMessage> messages;
 
-    public GroupChat(String groupName, List<User> members, int maxMembers) {
+    public GroupChat(String groupName, User creator, List<User> members, int maxMembers) {
         super();
         this.groupName = groupName;
+        this.creator = creator;
         this.members = members;
         this.maxMembers = maxMembers;
         //this.messages = new LinkedList<>();
     }
+
+    public static GroupChat createChatIfFriends(String groupName, User creator, List<User> members, int maxMembers) {
+        for (User member : members) {
+            if (!creator.getFriendList().contains(member)) {
+                throw new IllegalArgumentException("All users must be friends with the admin/creator to create a group chat.");
+            }
+        }
+        return new GroupChat(groupName, creator, members, maxMembers);
+    }
+
 
     public GroupChat() {
 
