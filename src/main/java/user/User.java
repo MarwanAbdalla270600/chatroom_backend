@@ -23,7 +23,8 @@ import java.util.Set;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
     @EqualsAndHashCode.Include
-    @Id                                                     //Ich glaub wir haben uns darauf geeinigt dass der Username auch gleichzeitig die ID sein soll.
+    @Id
+    //Ich glaub wir haben uns darauf geeinigt dass der Username auch gleichzeitig die ID sein soll.
     @Column(name = "username")
     private String username;
 
@@ -34,23 +35,23 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name="user_friends",
+            name = "user_friends",
             joinColumns = @JoinColumn(name = "user_username", referencedColumnName = "username"),       //spezifiziert die Spalte für den Primärschlüssel des Users
-            inverseJoinColumns = @JoinColumn(name="friend_username", referencedColumnName = "username") //spezifiziert die Spalte für den Fremdschlüssel des Freundes
+            inverseJoinColumns = @JoinColumn(name = "friend_username", referencedColumnName = "username") //spezifiziert die Spalte für den Fremdschlüssel des Freundes
     )
     private Set<User> friendList;
 
     @ManyToMany
     @JoinTable(
-            name="user_groupChat",
-            joinColumns = @JoinColumn(name="username", referencedColumnName = "username"),
-            inverseJoinColumns = @JoinColumn(name = "groupChat_id",referencedColumnName = "chatId")
+            name = "user_groupChat",
+            joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"),
+            inverseJoinColumns = @JoinColumn(name = "groupChat_id", referencedColumnName = "chatId")
     )
     private Set<GroupChat> groupChats;
 
     @ManyToMany
     @JoinTable(
-            name="user_privateChat",
+            name = "user_privateChat",
             joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"),
             inverseJoinColumns = @JoinColumn(name = "privateChat_id", referencedColumnName = "chatId")
     )
@@ -93,7 +94,7 @@ public class User {
     }
 
     private static boolean isValidUsername(String username) {
-        if(username == null) return false;
+        if (username == null) return false;
 
         int minLength = 3;
         int maxLength = 25;
@@ -103,7 +104,7 @@ public class User {
 
         char[] lettersUsername = username.toCharArray();
         for (char character : lettersUsername) {
-            if(!Character.isLetterOrDigit(character)) return false;
+            if (!Character.isLetterOrDigit(character)) return false;
         }
         return true;
     }
@@ -119,12 +120,13 @@ public class User {
                     "contain BOTH digits and letters");
         }
     }
+
     private static boolean isValidPassword(String password) {
-        if(password == null) return false;
+        if (password == null) return false;
 
         int minLength = 6;
         int maxLength = 25;
-        if(password.length() < minLength || password.length() > maxLength) {
+        if (password.length() < minLength || password.length() > maxLength) {
             return false;
         }
 
@@ -133,10 +135,9 @@ public class User {
         char[] lettersPassword = password.toCharArray();
 
         for (char character : lettersPassword) {
-            if(Character.isDigit(character)) {
+            if (Character.isDigit(character)) {
                 containsDigit = true;
-            }
-            else if(Character.isLetter(character)) {
+            } else if (Character.isLetter(character)) {
                 containsLetter = true;
             }
         }
@@ -144,7 +145,7 @@ public class User {
     }
 
     public void sendFriendRequest(User receiver) {
-        if(receiver != null && !this.friendList.contains(receiver) && !hasPendingRequestsWith(receiver)) {
+        if (receiver != null && !this.friendList.contains(receiver) && !hasPendingRequestsWith(receiver)) {
             FriendRequestMessage friendRequestMessage = new FriendRequestMessage(this, receiver); //muss dann geändert werden
             FriendRequest friendRequest = new FriendRequest(this, receiver);
             addFriendRequest(friendRequest);
@@ -170,6 +171,7 @@ public class User {
         }
         return false;
     }
+
     public void sendNotification(User user, StatusMessage message) {
         System.out.println("Notification for " + user.getUsername() + ": " + message.getData());
     }
@@ -194,13 +196,11 @@ public class User {
         String declineMsg = "Friend request was declined";
         String pendingMsg = "Friend request is pending";
 
-        if(friendRequest.getStatus() == FriendRequest.FriendRequestStatus.ACCEPTED) {
+        if (friendRequest.getStatus() == FriendRequest.FriendRequestStatus.ACCEPTED) {
             return acceptMsg;
-        }
-        else if (friendRequest.getStatus() == FriendRequest.FriendRequestStatus.DECLINED) {
+        } else if (friendRequest.getStatus() == FriendRequest.FriendRequestStatus.DECLINED) {
             return declineMsg;
-        }
-        else {
+        } else {
             return pendingMsg;
         }
     }
@@ -213,7 +213,7 @@ public class User {
         if (friendRequest.getStatus() == FriendRequest.FriendRequestStatus.PENDING && this.equals(receiver)) {
             sender.friendList.add(receiver);
             receiver.friendList.add(sender);
-            friendRequest.setStatus(FriendRequest.FriendRequestStatus.ACCEPTED); //sets status to Accepted
+            friendRequest.setStatus(FriendRequest.FriendRequestStatus.ACCEPTED);
 
             sendNotification(sender, new StatusMessage(notificationMsg(friendRequest)));
             sendNotification(receiver, new StatusMessage(notificationMsg(friendRequest)));
@@ -221,11 +221,8 @@ public class User {
             removeFriendRequest(friendRequest);
 
             PrivateChat chatRoom = new PrivateChat(sender, receiver);
-            System.out.println("New Chatroom between " + sender.getUsername() + " and " + receiver.getUsername() + " created");
             sender.getPrivateChats().add(chatRoom);
-            System.out.println("Added chatroom to PrivatChat list of " + sender.getUsername());
             receiver.getPrivateChats().add(chatRoom);
-            System.out.println("Added chatroom to PrivatChat list of " + receiver.getUsername());
             return true;
         } else {
             return false;
@@ -264,13 +261,19 @@ public class User {
     }
 
     public void removeFriend(User user) {
-        //Removes a friend from both friendlists; asynchrone Freundeslisten machen keinen Sinn (wie bei FacebooK?!)
         if (this.friendList.contains(user)) {
             this.friendList.remove(user);
             user.friendList.remove(this);
-            //TODO also remove chat between them
+
+            //Removing their chatroom
+            PrivateChat chatToRemove = new PrivateChat(this, user);
+            this.privateChats.remove(chatToRemove);
+            user.privateChats.remove(chatToRemove);
+            this.privateChats.remove(chatToRemove);
+            user.privateChats.remove(chatToRemove);
         }
     }
+
 
     public User findFriendFromFriendlist(String username) { //bin unsicher ob wir die methode überhaupt im GUI brauchen
         if (username == null || username.isEmpty()) {
