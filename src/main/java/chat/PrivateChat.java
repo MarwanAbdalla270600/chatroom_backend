@@ -27,19 +27,6 @@ public class PrivateChat extends Chat {
             this.messages = new LinkedList<>();
         }
 
-   /* public static PrivateChat createChatIfFriends(User user1, User user2) {
-        if(user1.getFriendList().contains(user2)) {
-            return new PrivateChat(user1, user2);
-        } else {
-            throw new IllegalArgumentException("Users must be friends to send each other messages");
-        }
-    }*/
-
-    /*public void sendMessage(User sender, String messageText) {
-        User receiver = sender.equals(firstMember) ? secondMember : firstMember;
-        PrivateChatMessage message = new PrivateChatMessage(messageText, sender, receiver);
-        messages.add(message);
-    }*/
     public PrivateChat() {
 
     }
@@ -49,6 +36,7 @@ public class PrivateChat extends Chat {
                 "chatId=" + getChatId() +
                 ", members=[" + firstMember.getUsername() + ", " + secondMember.getUsername() + "]" +
                 ", time=[" + getDate() +
+                ", messages[" + getMessages() +
                 "}";
     }
 
