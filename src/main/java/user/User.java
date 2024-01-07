@@ -6,8 +6,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
 import message.FriendRequestMessage;
+import message.PrivateChatMessage;
 import message.StatusMessage;
 import jakarta.persistence.*;
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -216,10 +219,34 @@ public class User {
             sendNotification(receiver, new StatusMessage(notificationMsg(friendRequest)));
 
             removeFriendRequest(friendRequest);
+
+            PrivateChat chatRoom = new PrivateChat(sender, receiver);
+            System.out.println("New Chatroom between " + sender.getUsername() + " and " + receiver.getUsername() + " created");
+            sender.getPrivateChats().add(chatRoom);
+            System.out.println("Added chatroom to PrivatChat list of " + sender.getUsername());
+            receiver.getPrivateChats().add(chatRoom);
+            System.out.println("Added chatroom to PrivatChat list of " + receiver.getUsername());
             return true;
         } else {
             return false;
         }
+    }
+
+    public boolean sendMessage(User receiver, String messageText) {
+        if (!this.friendList.contains(receiver)) {
+            throw new IllegalArgumentException("Receiver must be a friend, sending not possible");
+        }
+        for (PrivateChat chat : this.privateChats) {
+            if ((chat.getFirstMember().equals(this) && chat.getSecondMember().equals(receiver)) ||
+                    (chat.getSecondMember().equals(this) && chat.getFirstMember().equals(receiver))) {
+                PrivateChatMessage newMessage = new PrivateChatMessage(messageText, this, receiver);
+                chat.getMessages().add(newMessage);
+                System.out.println("Message successfully sent to " + receiver.getUsername());
+                return true;
+            }
+        }
+        System.out.println("Chat not found - message not sent");
+        return false;
     }
 
     public boolean declineFriendRequest(FriendRequest friendRequest) {
@@ -241,6 +268,7 @@ public class User {
         if (this.friendList.contains(user)) {
             this.friendList.remove(user);
             user.friendList.remove(this);
+            //TODO also remove chat between them
         }
     }
 
@@ -259,5 +287,6 @@ public class User {
     }
 
     //TODO: implement findFriendFromSystem um neue Freunde zu adden
+
 
 }
