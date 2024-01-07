@@ -34,4 +34,8 @@ public class FriendRequest {
         this.status = FriendRequestStatus.PENDING;
     }
 
+    @Override
+    public String toString() {
+        return "FriendRequest from " + sender.getUsername() + " to " + receiver.getUsername() + " - Status: " + status;
+    }
 }

@@ -6,12 +6,14 @@ public class Main {
     public static void main(String[] args) {
         //Creating Users and Checking for Valid Usernames & Password
 
-        User adam = new User("Adam", "Passwort123");
-        User bura = new User("Bura", "ireer123");
-        User kevin = new User("Kevin", "123456pw");
-        User dina = new User("Dina", "lo1lok");
-        User dummy = new User("Dummy", "yeah123");
-        User yolo = new User("Yolo", "blabla1");
+        User adam = new User("Adam", "Passw123", 'm');
+        User bura = new User("Bura", "iwas123", 'm');
+        User kevin = new User("Kevin", "123456pw", 'm');
+        User dina = new User("Dina", "lo1lok", 'w');
+        User dummy = new User("Dummy", "yeah123", 'w');
+        User yolo = new User("Yolo", "blabla1", 'w');
+
+
 
         //Simulation FriendRequests:
         adam.sendFriendRequest(bura); //Adam sendet Bura eine Freundschaftsanfrage
@@ -85,35 +87,38 @@ public class Main {
         System.out.println("Friendlist of Dummy consists of: " + dummy.getFriendList()); // show friendlist of both
         System.out.println("Friendlist of Yolo consists of: " + yolo.getFriendList()); // both should be added vvrev
 
+        kevin.sendFriendRequest(adam);
+        adam.acceptFriendRequest(adam.getFriendRequests().get(0));
+
         //remove a Friend:
-        System.out.println("\nYolo removes Dummy from Friendlist: ");
+       /* System.out.println("\nYolo removes Dummy from Friendlist: ");
         yolo.removeFriend(dummy); //Yolo entfernt Dummy als Friend
         System.out.println("Friendlist of Dummy consists of: " + dummy.getFriendList()); //should remove friend from both lists
-        System.out.println("Friendlist of Yolo consists of: " + yolo.getFriendList()); //both should be empty
+        System.out.println("Friendlist of Yolo consists of: " + yolo.getFriendList()); //both should be empty*/
 
         //Sending Chat Messages: Adam -> Bura; Dina -> Adam;
         System.out.println("\n Sending Messages Simulation: \n");
-        System.out.println("Adam sends Dina a message: ");
-        try {
-            PrivateChat chatAdamDina = PrivateChat.createChatIfFriends(adam, dina);
-            chatAdamDina.sendMessage(adam, "Griasdi Dina");
-            chatAdamDina.sendMessage(dina, "Servus Adam");
-            System.out.println("All Chat messages sent: " + chatAdamDina.getMessages()); // würde im Chat von Adam u. Dina angezeogt werden
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
+
+        adam.sendMessage(dina, "Hey Dina, wie gehts? hier ist Adam");
+        adam.sendMessage(bura, "Hey Bura, wie ghets, da ist Adam");
+        adam.sendMessage(kevin, "yo KEVIN, was geht, Adam hier");
+        dina.sendMessage(adam, "ADAM servus, ich bin Dina");
+        bura.sendMessage(adam, "YOO ADAM, grüße von bura");
+        kevin.sendMessage(adam, "hey Adam, hier is KEV");
 
         System.out.println(adam.getPrivateChats());
+        System.out.println(bura.getPrivateChats());
+        System.out.println(dina.getPrivateChats());
+        System.out.println(kevin.getPrivateChats());
 
-        //Test: Trying to send to a non-Friend a Message --> should Fail
-        try {
-            PrivateChat chatYoloAdam = PrivateChat.createChatIfFriends(yolo, adam);
-            chatYoloAdam.sendMessage(yolo, "Ahoi");
-            System.out.println("All Chat messages sent: " + chatYoloAdam.getMessages()); // würde im Chat von Adam u. Dina angezeogt werden
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
-        System.out.println(yolo.getPrivateChats()); // should be empty
+       //Remove a friend
+       System.out.println(dina.getPrivateChats());
+        adam.removeFriend(kevin);
+        System.out.println("Updated Adam: " + adam.getPrivateChats());
+
+        dina.removeFriend(adam);
+        System.out.println("Friendlist of Adam: " + adam.getFriendList());
+        System.out.println("Friendlist of Kevin: " + kevin.getFriendList());
 
         System.out.println("Number of chats of Adam: " + adam.getPrivateChats().size());
         System.out.println("Number of chats of Dina: " + dina.getPrivateChats().size());
