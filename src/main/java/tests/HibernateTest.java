@@ -19,7 +19,7 @@ public class HibernateTest {
 
         // Create and persist entities
         User user = new User("Philipp", "password123");
-        GroupChat groupChat = new GroupChat("GroupName", new ArrayList<>(), 10);
+        GroupChat groupChat = new GroupChat("GroupName",user, new ArrayList<>(), 10);
 
         em.persist(user);
         em.persist(groupChat);

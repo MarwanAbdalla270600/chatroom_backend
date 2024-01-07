@@ -26,7 +26,7 @@ public class GroupChatMessage extends Message {
     @ManyToOne
     GroupChat groupChat; //reference to GroupChat
 
-    public GroupChatMessage(int messageId, String data, User sender, GroupChat receiver) {
+    public GroupChatMessage(String data, User sender, GroupChat receiver) {
         super();
         this.data = data;
         this.sender = sender;

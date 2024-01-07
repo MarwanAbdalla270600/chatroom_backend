@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import message.GroupChatMessage;
+import message.PrivateChatMessage;
 import user.User;
 
 import java.util.LinkedList;
@@ -52,6 +53,11 @@ public class GroupChat extends Chat<GroupChatMessage> {
             }
         }
         return new GroupChat(groupName, creator, members, maxMembers);
+    }
+
+    public void sendMessage(User sender, String messageText) {
+        GroupChatMessage message = new GroupChatMessage(messageText, sender, this); // 'this' refers to the current GroupChat instance
+        messages.add(message);
     }
 
 
