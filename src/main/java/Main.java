@@ -111,6 +111,15 @@ public class Main {
         System.out.println(dina.getPrivateChats());
         System.out.println(kevin.getPrivateChats());
 
+       //Remove a friend
+       System.out.println(dina.getPrivateChats());
+        adam.removeFriend(kevin);
+        System.out.println("Updated Adam: " + adam.getPrivateChats());
+
+        dina.removeFriend(adam);
+        System.out.println("Friendlist of Adam: " + adam.getFriendList());
+        System.out.println("Friendlist of Kevin: " + kevin.getFriendList());
+
         System.out.println("Number of chats of Adam: " + adam.getPrivateChats().size());
         System.out.println("Number of chats of Dina: " + dina.getPrivateChats().size());
         System.out.println("Number of chats of Yolo: " + yolo.getPrivateChats().size());
