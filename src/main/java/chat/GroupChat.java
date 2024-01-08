@@ -60,7 +60,16 @@ public class GroupChat extends Chat<GroupChatMessage> {
         messages.add(message);
     }
 
-
+    @Override
+    public String toString() {
+        for (User member : members){
+            return member.getUsername();
+        }
+        return "GroupChat{" +
+                "chatId=" + getChatId() +
+                ", time=[" + getDate() +
+                "}";
+    }
     public GroupChat() {
 
     }
