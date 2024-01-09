@@ -84,66 +84,6 @@ public class User {
                 "gender='" + getGender() + '}';
     }
 
-    public void setUsername(String username) {
-        if (isValidUsername(username)) {
-            this.username = username;
-        } else {
-            throw new IllegalArgumentException("Invalid username " +
-                    "(Usernames must be min. 3 but max 25 char of length " +
-                    "and only letters and digits");
-        }
-    }
-
-    private static boolean isValidUsername(String username) {
-        if (username == null) return false;
-
-        int minLength = 3;
-        int maxLength = 25;
-        if (username.length() < minLength || username.length() > maxLength) {
-            return false;
-        }
-
-        char[] lettersUsername = username.toCharArray();
-        for (char character : lettersUsername) {
-            if (!Character.isLetterOrDigit(character)) return false;
-        }
-        return true;
-    }
-
-    //TODO: implement a isUniqueUsername with Database query (username list)
-
-    public void setPassword(String password) {
-        if (isValidPassword(password)) {
-            this.password = password;
-        } else {
-            throw new IllegalArgumentException("Invalid password" +
-                    "(Passwords must be at least 6 char long, and must " +
-                    "contain BOTH digits and letters");
-        }
-    }
-
-    private static boolean isValidPassword(String password) {
-        if (password == null) return false;
-
-        int minLength = 6;
-        int maxLength = 25;
-        if (password.length() < minLength || password.length() > maxLength) {
-            return false;
-        }
-
-        boolean containsDigit = false;
-        boolean containsLetter = false;
-        char[] lettersPassword = password.toCharArray();
-
-        for (char character : lettersPassword) {
-            if (Character.isDigit(character)) {
-                containsDigit = true;
-            } else if (Character.isLetter(character)) {
-                containsLetter = true;
-            }
-        }
-        return containsDigit && containsLetter;
-    }
 
     public void sendFriendRequest(User receiver) {
         if (receiver != null && !this.friendList.contains(receiver) && !hasPendingRequestsWith(receiver)) {
