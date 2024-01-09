@@ -70,7 +70,16 @@ public class UserService {
         return false;
     }
 
-
+    public User findUser(String username) {
+        if (username == null || username.isEmpty()) {
+            return null;
+        }
+        if (registeredUsers.containsKey(username)) {
+            User searchedUser = registeredUsers.get(username);
+            return searchedUser;
+        }
+        return null;
+    }
 
     private static boolean isValidUsername(String username) {
         if (username == null) return false;
