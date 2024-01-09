@@ -60,9 +60,13 @@ public class GroupChat extends Chat<GroupChatMessage> {
         messages.add(message);
     }
 
+    public void removeFriendFromGroup(User user, List<User> members) {
+        members.removeIf(member -> user == member);
+    }
+
     @Override
     public String toString() {
-        for (User member : members){
+        for (User member : members) {
             return member.getUsername();
         }
         return "GroupChat{" +
@@ -70,6 +74,7 @@ public class GroupChat extends Chat<GroupChatMessage> {
                 ", time=[" + getDate() +
                 "}";
     }
+
     public GroupChat() {
 
     }
