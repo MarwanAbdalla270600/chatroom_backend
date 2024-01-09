@@ -31,7 +31,7 @@ public class UserService {
         if (!registeredUsers.containsKey(username)) {
             User newUser = new User(username, password, gender);
             registeredUsers.put(username, newUser);
-            System.out.println("New User " + newUser.getUsername() + "successfully registered");
+            System.out.println("New User " + newUser.getUsername() + " successfully registered");
             return true;
         }
 
@@ -49,7 +49,7 @@ public class UserService {
             user.setUsername(newUsername);
             registeredUsers.remove(oldUsername);    //update hashmap with new key
             registeredUsers.put(newUsername, user);
-            System.out.println("Username successfully changed from " + oldUsername + "to " + user.getUsername());
+            System.out.println("Username successfully changed from " + oldUsername + " to " + user.getUsername());
             return true;
         }
         System.out.println("Old Username does not exist or new Username is not free (Username already exists");

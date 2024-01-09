@@ -1,18 +1,53 @@
-import chat.PrivateChat;
+
+import service.UserService;
 import user.FriendRequest;
 import user.User;
 
 public class Main {
     public static void main(String[] args) {
-        //Creating Users and Checking for Valid Usernames & Password
+        UserService userService = new UserService();
 
-        User adam = new User("Adam", "Passw123", 'm');
-        User bura = new User("Bura", "iwas123", 'm');
-        User kevin = new User("Kevin", "123456pw", 'm');
-        User dina = new User("Dina", "lo1lok", 'w');
-        User dummy = new User("Dummy", "yeah123", 'w');
-        User yolo = new User("Yolo", "blabla1", 'w');
+        //Creating Users
+        userService.registerNewUser("Adam", "iwas123", 'm');
+        userService.registerNewUser("Bura", "bla123", 'w');
+        userService.registerNewUser("Dina", "lol123", 'w');
+        userService.registerNewUser("Kevin", "oka123", 'm');
+        userService.registerNewUser("Dummy", "jaaa123", 'm');
+        userService.registerNewUser("Yolo", "jaaa123", 'm');
 
+        //FInding users in the system:
+        System.out.println("\nSearch for Adam, Bura, Dina and Kevin: ");
+        User adam = userService.findUser("Adam");
+        System.out.println("Found user: " + adam);
+        userService.findUser("Bura");
+        User bura = userService.findUser("Bura");
+        System.out.println("Found user: " + bura);
+        userService.findUser("Dina");
+        User dina = userService.findUser("Dina");
+        System.out.println("Found user: " + dina);
+        userService.findUser("Kevin");
+        User kevin = userService.findUser("Kevin");
+        System.out.println("Found user: " + kevin);
+
+        System.out.println("\nSearch a not registered user: ");
+        System.out.println("Search for User HerbertIwas");
+        User unknownUser = userService.findUser("HerbertIwas");
+        if (unknownUser == null) System.out.println("No user found in system");
+        else System.out.println("Found user: " + unknownUser);
+
+        User dummy = userService.findUser("Dummy");
+        User yolo = userService.findUser("Yolo");
+
+        //Change Username & Password of already registered users
+        System.out.println("\n Change username Adam to HOLDEN: ");
+        userService.changeUsername("Adam", "HOLDEN");
+        adam = userService.findUser("HOLDEN"); //objekt muss neu zugewiesen werden sonst werden änderung nicht übernommen
+
+        System.out.println("\nChange password of Dina:");
+        System.out.println("Current password of Dina: " + dina.getPassword());
+        System.out.println("Change password to newTestPw12345");
+        userService.changePassword("Dina", "newTestPw12345");
+        System.out.println("New password of Dina: " + dina.getPassword());
 
 
         //Simulation FriendRequests:
@@ -45,6 +80,8 @@ public class Main {
             System.out.println();
         }
 
+        //Überall wo in Print Statements "Adam" geschrieben ist, wird immer noch Adam anstatt HOLDEN ausgegeben
+
         //Accept & Decline of FriendRequests:
         System.out.println("\nTesting of Accepting & Declining of Requests: \n");
 
@@ -72,13 +109,6 @@ public class Main {
         System.out.println("Friendlist of Kevin consists of: " + kevin.getFriendList());
         System.out.println("Friendlist of Dina consists of: " + dina.getFriendList());
 
-        //Find a Friend in Users friendlist:
-        //bin noch unsicher ob wir diese methode am Ende im GUI überhaupt brauchen
-        System.out.println("\nSearching for Adam in Dina's friendlist: ");
-        User foundFriend = dina.findFriendFromFriendlist("Adam");
-        if (foundFriend != null) {
-            System.out.println("User found: " + foundFriend);
-        }
         //Testing Adding and Removing friends from friendlist:
         System.out.println("\nTesting Adding Friends and Removing Friends from Friendlist: \n");
 
@@ -89,12 +119,8 @@ public class Main {
 
         kevin.sendFriendRequest(adam);
         adam.acceptFriendRequest(adam.getFriendRequests().get(0));
-
-        //remove a Friend:
-       /* System.out.println("\nYolo removes Dummy from Friendlist: ");
-        yolo.removeFriend(dummy); //Yolo entfernt Dummy als Friend
-        System.out.println("Friendlist of Dummy consists of: " + dummy.getFriendList()); //should remove friend from both lists
-        System.out.println("Friendlist of Yolo consists of: " + yolo.getFriendList()); //both should be empty*/
+        yolo.sendFriendRequest(bura);
+        bura.acceptFriendRequest(bura.getFriendRequests().get(0));
 
         //Sending Chat Messages: Adam -> Bura; Dina -> Adam;
         System.out.println("\n Sending Messages Simulation: \n");
@@ -105,14 +131,26 @@ public class Main {
         dina.sendMessage(adam, "ADAM servus, ich bin Dina");
         bura.sendMessage(adam, "YOO ADAM, grüße von bura");
         kevin.sendMessage(adam, "hey Adam, hier is KEV");
+        yolo.sendMessage(bura, "Yo Bura was geht ab??");
 
+        //Displaying amount of chats
+        System.out.println("\nDisplaying amount of chats:");
+        System.out.println("Number of chats of Adam: " + adam.getPrivateChats().size());
+        System.out.println("Number of chats of Dina: " + dina.getPrivateChats().size());
+        System.out.println("Number of chats of Yolo: " + yolo.getPrivateChats().size());
+        System.out.println("Number of chats of Bura: " + bura.getPrivateChats().size());
+        System.out.println("Number of chats of Kevin: " + kevin.getPrivateChats().size());
+
+        System.out.println("\nDisplaying chat details: ");
         System.out.println(adam.getPrivateChats());
         System.out.println(bura.getPrivateChats());
         System.out.println(dina.getPrivateChats());
         System.out.println(kevin.getPrivateChats());
 
+
        //Remove a friend
-       System.out.println(dina.getPrivateChats());
+        System.out.println("\nRemoving friends and therefore their chatroom");
+        System.out.println(dina.getPrivateChats());
         adam.removeFriend(kevin);
         System.out.println("Updated Adam: " + adam.getPrivateChats());
 
@@ -120,6 +158,8 @@ public class Main {
         System.out.println("Friendlist of Adam: " + adam.getFriendList());
         System.out.println("Friendlist of Kevin: " + kevin.getFriendList());
 
+        //Displaying amount of chats after removing friends
+        System.out.println("\nDisplaying amount of chats after removing friends");
         System.out.println("Number of chats of Adam: " + adam.getPrivateChats().size());
         System.out.println("Number of chats of Dina: " + dina.getPrivateChats().size());
         System.out.println("Number of chats of Yolo: " + yolo.getPrivateChats().size());
