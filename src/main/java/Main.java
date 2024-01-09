@@ -8,26 +8,20 @@ public class Main {
         UserService userService = new UserService();
 
         //Creating Users
-        userService.registerNewUser("Adam", "iwas123", 'm');
-        userService.registerNewUser("Bura", "bla123", 'w');
-        userService.registerNewUser("Dina", "lol123", 'w');
-        userService.registerNewUser("Kevin", "oka123", 'm');
-        userService.registerNewUser("Dummy", "jaaa123", 'm');
-        userService.registerNewUser("Yolo", "jaaa123", 'm');
+        User adam = userService.registerNewUser("Adam", "iwas123", 'm');
+        User bura = userService.registerNewUser("Bura", "bla123", 'w');
+        User dina = userService.registerNewUser("Dina", "lol123", 'w');
+        User kevin = userService.registerNewUser("Kevin", "oka123", 'm');
+        User dummy = userService.registerNewUser("Dummy", "jaaa123", 'm');
+        User yolo = userService.registerNewUser("Yolo", "jaaa123", 'm');
+
 
         //FInding users in the system:
         System.out.println("\nSearch for Adam, Bura, Dina and Kevin: ");
-        User adam = userService.findUser("Adam");
-        System.out.println("Found user: " + adam);
-        userService.findUser("Bura");
-        User bura = userService.findUser("Bura");
-        System.out.println("Found user: " + bura);
-        userService.findUser("Dina");
-        User dina = userService.findUser("Dina");
-        System.out.println("Found user: " + dina);
-        userService.findUser("Kevin");
-        User kevin = userService.findUser("Kevin");
-        System.out.println("Found user: " + kevin);
+        System.out.println("Found user: " + userService.findUser("Adam"));
+        System.out.println("Found user: " + userService.findUser("Bura"));
+        System.out.println("Found user: " + userService.findUser("Dina"));
+        System.out.println("Found user: " + userService.findUser("Kevin"));
 
         System.out.println("\nSearch a not registered user: ");
         System.out.println("Search for User HerbertIwas");
@@ -35,13 +29,11 @@ public class Main {
         if (unknownUser == null) System.out.println("No user found in system");
         else System.out.println("Found user: " + unknownUser);
 
-        User dummy = userService.findUser("Dummy");
-        User yolo = userService.findUser("Yolo");
+
 
         //Change Username & Password of already registered users
         System.out.println("\n Change username Adam to HOLDEN: ");
         userService.changeUsername("Adam", "HOLDEN");
-        adam = userService.findUser("HOLDEN"); //objekt muss neu zugewiesen werden sonst werden änderung nicht übernommen
 
         System.out.println("\nChange password of Dina:");
         System.out.println("Current password of Dina: " + dina.getPassword());

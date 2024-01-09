@@ -14,17 +14,17 @@ public class UserService {
         this.registeredUsers = new HashMap<>();
     }
 
-    public boolean registerNewUser(String username, String password, char gender) {
+    public User registerNewUser(String username, String password, char gender) {
         if (!isValidUsername(username)) {
             System.out.println("Username invalid. Usernames must be between 3 and 25 characters long, and contain only " +
                     "digits and english letters");
-            return false;
+            return null;
         }
 
         if (!isValidPassword(password)) {
             System.out.println("Password invalid. Passwords must be between 6 and 25 characters long and must contain " +
                     "numbers AND digits!");
-            return false;
+            return null;
         }
         //denk für gender wirds keine Validierung brauchen, weil man im GUI graphisch nur zwischen weibl./männl. wählt?!
 
@@ -32,11 +32,11 @@ public class UserService {
             User newUser = new User(username, password, gender);
             registeredUsers.put(username, newUser);
             System.out.println("New User " + newUser.getUsername() + " successfully registered");
-            return true;
+            return newUser;
         }
 
         System.out.println("Username already exists, please choose a other name");
-        return false;
+        return null;
     }
 
     public boolean changeUsername(String oldUsername, String newUsername) { //method if a User wants to change username later on
