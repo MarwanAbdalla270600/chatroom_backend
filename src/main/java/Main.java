@@ -16,7 +16,7 @@ public class Main {
         User yolo = userService.registerNewUser("Yolo", "jaaa123", 'm');
 
 
-        //FInding users in the system:
+        //Finding users in the system:
         System.out.println("\nSearch for Adam, Bura, Dina and Kevin: ");
         System.out.println("Found user: " + userService.findUser("Adam"));
         System.out.println("Found user: " + userService.findUser("Bura"));
@@ -32,7 +32,7 @@ public class Main {
 
 
         //Change Username & Password of already registered users
-        System.out.println("\n Change username Adam to HOLDEN: ");
+        System.out.println("\nChange username Adam to HOLDEN: ");
         userService.changeUsername("Adam", "HOLDEN");
 
         System.out.println("\nChange password of Dina:");
