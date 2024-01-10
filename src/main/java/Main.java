@@ -14,9 +14,18 @@ public class Main {
     Socket socket = serverSocket.accept();
     ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
     String json = (String) in.readObject();
-        User test = User.fromJson(json);
-        System.out.println(test);
+    char end = getEndPoint(json);
 
+    switch (end) {
+        case 'l':
+            System.out.println("login");
+            break;
+        case 'r':
+            System.out.println("register");
+    }
+
+    User test = User.fromJson(json);
+    System.out.println(test);
 
 
 
@@ -181,4 +190,7 @@ public class Main {
         System.out.println("Number of chats of Kevin: " + kevin.getPrivateChats().size());*/
 
     } //psvm
+    public static char getEndPoint(String s) {
+        return s.charAt(s.length()-1);
+    }
 }
