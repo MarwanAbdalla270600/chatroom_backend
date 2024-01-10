@@ -2,6 +2,8 @@ package user;
 
 import chat.GroupChat;
 import chat.PrivateChat;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
@@ -72,6 +74,11 @@ public class User {
         this.friendRequests = new ArrayList<>();
     }
 
+    public static User fromJson(String json) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(json, User.class);
+    }
+
     public User() {
 
     }
@@ -81,6 +88,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "username='" + getUsername() + '\'' +
+                "password='" + getPassword() +
                 "gender='" + getGender() + '}';
     }
 

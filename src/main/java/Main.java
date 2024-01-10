@@ -1,30 +1,28 @@
-
-import server.ChatServer;
-import service.UserService;
-import user.FriendRequest;
 import user.User;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
         //Starting server:
+    ServerSocket serverSocket = new ServerSocket(12345);
+    Socket socket = serverSocket.accept();
+    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+    String json = (String) in.readObject();
+        User test = User.fromJson(json);
+        System.out.println(test);
 
-            Thread serverThread = new Thread(() -> {
-                try {
-                    ChatServer server = new ChatServer(12345);
-                    System.out.println("Server started, waiting for client connections ...");
-                    server.startServer();
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            serverThread.start();
 
-            // Give the server a moment to start
-            Thread. sleep(1000);
+
+
+
+
 
 
 
