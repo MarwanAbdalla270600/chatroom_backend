@@ -7,10 +7,12 @@ import lombok.Setter;
 import lombok.ToString;
 import user.User;
 import chat.PrivateChat;
+
+import java.time.format.DateTimeFormatter;
+
 @Entity
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode(callSuper = true)
 public class PrivateChatMessage extends Message {
     @Column(name = "data", nullable = false)
@@ -34,4 +36,15 @@ public class PrivateChatMessage extends Message {
     public PrivateChatMessage() {
 
     }
+
+    @Override
+    public String toString() {
+        DateTimeFormatter timeTransformer = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); //for displaying time in a readable format
+        return "Message from " + sender.getUsername() +
+                " to " + receiver.getUsername() +
+                " at " + getTime().format(timeTransformer) +
+                ": " + data;
+    }
+
+
 }

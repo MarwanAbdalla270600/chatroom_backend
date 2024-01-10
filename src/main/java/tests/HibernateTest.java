@@ -18,7 +18,7 @@ public class HibernateTest {
         em.getTransaction().begin();
 
         // Create and persist entities
-        User user = new User("Philipp", "password123");
+        User user = new User("Philipp", "password123",'m');
         GroupChat groupChat = new GroupChat("GroupName", new ArrayList<>(), 10);
 
         em.persist(user);

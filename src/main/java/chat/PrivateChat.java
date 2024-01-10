@@ -8,6 +8,8 @@ import user.User;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+
 @Entity
 @Getter
 
@@ -25,23 +27,8 @@ public class PrivateChat extends Chat {
             this.firstMember = firstMember;
             this.secondMember = secondMember;
             this.messages = new LinkedList<>();
-            firstMember.getPrivateChats().add(this);
-            secondMember.getPrivateChats().add(this);
         }
 
-    public static PrivateChat createChatIfFriends(User user1, User user2) {
-        if(user1.getFriendList().contains(user2)) {
-            return new PrivateChat(user1, user2);
-        } else {
-            throw new IllegalArgumentException("Users must be friends to send each other messages");
-        }
-    }
-
-    public void sendMessage(User sender, String messageText) {
-        User receiver = sender.equals(firstMember) ? secondMember : firstMember;
-        PrivateChatMessage message = new PrivateChatMessage(messageText, sender, receiver);
-        messages.add(message);
-    }
     public PrivateChat() {
 
     }
@@ -51,7 +38,21 @@ public class PrivateChat extends Chat {
                 "chatId=" + getChatId() +
                 ", members=[" + firstMember.getUsername() + ", " + secondMember.getUsername() + "]" +
                 ", time=[" + getDate() +
+                ", messages[" + getMessages() +
                 "}";
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PrivateChat that = (PrivateChat) o;
+        return (Objects.equals(firstMember, that.firstMember) && Objects.equals(secondMember, that.secondMember)) ||
+                (Objects.equals(firstMember, that.secondMember) && Objects.equals(secondMember, that.firstMember));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstMember, secondMember) + Objects.hash(secondMember, firstMember);
     }
 
 }
