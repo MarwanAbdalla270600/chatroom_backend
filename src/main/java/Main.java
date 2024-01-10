@@ -1,11 +1,35 @@
 
+import server.ChatServer;
 import service.UserService;
 import user.FriendRequest;
 import user.User;
 
+import java.io.IOException;
+
+
 public class Main {
-    public static void main(String[] args) {
-        UserService userService = new UserService();
+    public static void main(String[] args) throws InterruptedException {
+        //Starting server:
+
+            Thread serverThread = new Thread(() -> {
+                try {
+                    ChatServer server = new ChatServer(12345);
+                    System.out.println("Server started, waiting for client connections ...");
+                    server.startServer();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            serverThread.start();
+
+            // Give the server a moment to start
+            Thread. sleep(1000);
+
+
+
+
+        /*UserService userService = new UserService();
 
         //Creating Users
         User adam = userService.registerNewUser("Adam", "iwas123", 'm');
@@ -156,7 +180,7 @@ public class Main {
         System.out.println("Number of chats of Dina: " + dina.getPrivateChats().size());
         System.out.println("Number of chats of Yolo: " + yolo.getPrivateChats().size());
         System.out.println("Number of chats of Bura: " + bura.getPrivateChats().size());
-        System.out.println("Number of chats of Kevin: " + kevin.getPrivateChats().size());
+        System.out.println("Number of chats of Kevin: " + kevin.getPrivateChats().size());*/
 
     } //psvm
 }
