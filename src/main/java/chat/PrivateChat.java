@@ -6,6 +6,7 @@ import lombok.Getter;
 import message.PrivateChatMessage;
 import user.User;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -14,15 +15,15 @@ import java.util.Objects;
 @Getter
 
 @EqualsAndHashCode(callSuper = true)
-public class PrivateChat extends Chat {
-    @ManyToOne
-    private User firstMember;
-    @ManyToOne
-    private User secondMember;
+public class PrivateChat extends Chat implements Serializable {
+    //@ManyToOne
+    private String firstMember;
+    //@ManyToOne
+    private String secondMember;
     @OneToMany(mappedBy = "privateChat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PrivateChatMessage> messages;
 
-    public PrivateChat(User firstMember, User secondMember) {
+    public PrivateChat(String firstMember, String secondMember) {
             super();
             this.firstMember = firstMember;
             this.secondMember = secondMember;
@@ -36,7 +37,7 @@ public class PrivateChat extends Chat {
     public String toString() {
         return "PrivateChat{" +
                 "chatId=" + getChatId() +
-                ", members=[" + firstMember.getUsername() + ", " + secondMember.getUsername() + "]" +
+                ", members=[" + firstMember + ", " + secondMember+ "]" +
                 ", time=[" + getDate() +
                 ", messages[" + getMessages() +
                 "}";

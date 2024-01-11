@@ -1,10 +1,14 @@
+import chat.PrivateChat;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import service.UserService;
 import user.User;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import static java.lang.Thread.sleep;
 
 
 public class Main {
@@ -17,48 +21,68 @@ public class Main {
         UserService.registerNewUser(marwan);
         UserService.registerNewUser(andreas);
 
+        PrivateChat chatMarwan = new PrivateChat(marwan.getUsername(), tomas.getUsername());
+        marwan.addChatToUser(chatMarwan);
+        tomas.addChatToUser(chatMarwan);
+
+
         ServerSocket serverSocket = new ServerSocket(12345);
-    Socket socket = serverSocket.accept();
-    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-    PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+        Socket socket = serverSocket.accept();
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+        String json = (String) in.readObject();
+        char end = getEndPoint(json);
 
-    String json = (String) in.readObject();
-    char end = getEndPoint(json);
+        switch (end) {
+            case 'l':
+                System.out.println("login");
+                User loggedUser = User.fromJson(json);
+                if (UserService.checkLogin(loggedUser)) {
+                    out.println("true");
+                    System.out.println("send success login");
+                } else {
+                    out.println("false");
+                    System.out.println("send failure login");
+                }
+                break;
+            case 'r':
+                System.out.println("register");
+                User registerUser = User.fromJson(json);
+                if (UserService.registerNewUser(registerUser)) {
+                    out.println("true");
+                    System.out.println("send success register");
+                } else {
+                    out.println("false");
+                    System.out.println("send failure register");
+                }
+                break;
+            case 'f':
+                System.out.println("add Friend");
+                json = json.substring(0, json.length() - 1);
+                String[] parts = json.split(";");
+                String sender = parts[0];
+                String receiver = parts[1];
+                if (User.acceptFriendRequest(sender, receiver)) {
+                    out.println("true");
+                } else {
+                    out.println("false");
+                }
 
-    switch (end) {
-        case 'l':
-            System.out.println("login");
-            User loggedUser = User.fromJson(json);
-            if(UserService.checkLogin(loggedUser)) {
-                out.println("true");
-                System.out.println("send success login");
-            } else {
-                out.println("false");
-                System.out.println("send failure login");
-            }
-            break;
-        case 'r':
-            System.out.println("register");
-            User registerUser = User.fromJson(json);
-            if(UserService.registerNewUser(registerUser)) {
-                out.println("true");
-                System.out.println("send success register");
-            } else {
-                out.println("false");
-                System.out.println("send failure register");
-            }
-            break;
-        case 'f':
-            System.out.println("add Friend");
-            json = json.substring(0, json.length()-1);
-            String[] parts = json.split(";");
-            String sender = parts[0];
-            String receiver = parts[1];
-            if(User.acceptFriendRequest(sender, receiver)){
-                out.println("true");
-            } else {
-                out.println("false");
-            }
+            case 'i':
+                ObjectMapper om = new ObjectMapper();
+                om.registerModule(new JavaTimeModule());
+                json = json.substring(0, json.length() - 1);
+                User tmp = UserService.registeredUsers.get(json);
+                //System.out.println(tmp.getPrivateChats());
+                String response = om.writeValueAsString(tmp.getPrivateChats());
+                System.out.println(response);
+                sleep(3000);
+                ObjectOutputStream outObject = new ObjectOutputStream(socket.getOutputStream());
+                //out.println("send");
+                outObject.writeObject(response);
+                outObject.close();
+                //System.out.println(tmp.getPrivateChats());
+        }
 
     }
 
@@ -227,8 +251,9 @@ public class Main {
         System.out.println("Number of chats of Bura: " + bura.getPrivateChats().size());
         System.out.println("Number of chats of Kevin: " + kevin.getPrivateChats().size());*/
 
-    } //psvm
+
     public static char getEndPoint(String s) {
-        return s.charAt(s.length()-1);
+        return s.charAt(s.length() - 1);
     }
 }
+

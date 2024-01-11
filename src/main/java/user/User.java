@@ -14,6 +14,7 @@ import jakarta.persistence.*;
 import org.w3c.dom.ls.LSOutput;
 import service.UserService;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,7 +25,7 @@ import java.util.Set;
 @Setter
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class User {
+public class User implements Serializable {
     @EqualsAndHashCode.Include
     @Id
     //Ich glaub wir haben uns darauf geeinigt dass der Username auch gleichzeitig die ID sein soll.
@@ -168,7 +169,7 @@ public class User {
             senderUser.friendList.add(receiverUser);
             receiverUser.friendList.add(senderUser);
 
-            PrivateChat chatRoom = new PrivateChat(senderUser, receiverUser);
+            PrivateChat chatRoom = new PrivateChat(senderUser.username, receiverUser.username);
             senderUser.getPrivateChats().add(chatRoom);
             receiverUser.getPrivateChats().add(chatRoom);
             return true;
@@ -211,7 +212,7 @@ public class User {
             user.friendList.remove(this);
 
             //Removing their chatroom
-            PrivateChat chatToRemove = new PrivateChat(this, user);
+            PrivateChat chatToRemove = new PrivateChat(this.username, user.username);
             this.privateChats.remove(chatToRemove);
             user.privateChats.remove(chatToRemove);
             this.privateChats.remove(chatToRemove);
@@ -219,6 +220,10 @@ public class User {
         }
     }
 
+
+    public void addChatToUser(PrivateChat chat) {
+        this.privateChats.add(chat);
+    }
 
 
 }

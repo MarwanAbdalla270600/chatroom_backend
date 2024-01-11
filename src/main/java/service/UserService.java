@@ -26,9 +26,8 @@ public class UserService {
         //denk für gender wirds keine Validierung brauchen, weil man im GUI graphisch nur zwischen weibl./männl. wählt?!
 
         if (!registeredUsers.containsKey(user.getUsername())) {
-            User newUser = new User(user.getUsername(), user.getPassword(), user.getGender());
-            registeredUsers.put(user.getUsername(), newUser);
-            System.out.println("New User " + newUser.getUsername() + " successfully registered");
+            registeredUsers.put(user.getUsername(), user);
+            System.out.println("New User " + user.getUsername() + " successfully registered");
             return true;
         }
 

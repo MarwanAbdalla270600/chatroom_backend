@@ -8,13 +8,14 @@ import lombok.ToString;
 import user.User;
 import chat.PrivateChat;
 
+import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class PrivateChatMessage extends Message {
+public class PrivateChatMessage extends Message implements Serializable {
     @Column(name = "data", nullable = false)
     private String data;
 
