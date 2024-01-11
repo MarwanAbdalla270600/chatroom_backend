@@ -38,4 +38,6 @@ public abstract class Chat<T extends Message> {
     public List<T> getMessages() {
         return (List<T>) messages;
     }
+
+
 }

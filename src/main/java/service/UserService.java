@@ -1,5 +1,8 @@
 package service;
 
+import chat.Chat;
+import chat.PrivateChat;
+import message.PrivateChatMessage;
 import user.User;
 
 import java.util.HashMap;
@@ -8,8 +11,16 @@ import java.util.Map;
 
 public class UserService {
     public static Map<String, User> registeredUsers = new HashMap<>();//HashMap hat Vorteile beim Zugriff, kein Iterating nötig wegen Key=String=Username
+    public static Map<Integer, PrivateChat> privateChats = new HashMap<>();
 
 
+    public static PrivateChat findPrivatChatById(int chatId) {
+        return privateChats.get(chatId);
+    }
+
+    public static void addMsgToChat(int chatId, PrivateChatMessage privateChatMessage) {
+        privateChats.get(chatId).addMsgToPrivateChat(privateChatMessage);
+    }
 
     public static boolean registerNewUser(User user) {
         if (!isValidUsername(user.getUsername())) {

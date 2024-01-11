@@ -33,6 +33,11 @@ public class PrivateChat extends Chat implements Serializable {
     public PrivateChat() {
 
     }
+
+    public void addMsgToPrivateChat(PrivateChatMessage message) {
+        this.messages.add(message);
+    }
+
     @Override
     public String toString() {
         return "PrivateChat{" +

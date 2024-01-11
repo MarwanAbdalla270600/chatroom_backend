@@ -170,27 +170,24 @@ public class User implements Serializable {
             receiverUser.friendList.add(senderUser);
 
             PrivateChat chatRoom = new PrivateChat(senderUser.username, receiverUser.username);
+            UserService.privateChats.put(chatRoom.getChatId(), chatRoom); //adding privatchatroom to UserService HashMap
             senderUser.getPrivateChats().add(chatRoom);
             receiverUser.getPrivateChats().add(chatRoom);
             return true;
     }
 
-    public boolean sendMessage(User receiver, String messageText) {
-        if (!this.friendList.contains(receiver)) {
-            throw new IllegalArgumentException("Receiver must be a friend, sending not possible");
-        }
-        for (PrivateChat chat : this.privateChats) {
-            if ((chat.getFirstMember().equals(this) && chat.getSecondMember().equals(receiver)) ||
-                    (chat.getSecondMember().equals(this) && chat.getFirstMember().equals(receiver))) {
-                PrivateChatMessage newMessage = new PrivateChatMessage(messageText, this, receiver);
-                chat.getMessages().add(newMessage);
-                System.out.println("Message successfully sent to " + receiver.getUsername());
-                return true;
-            }
-        }
-        System.out.println("Chat not found - message not sent");
-        return false;
+    public boolean sendMessage(String senderUsername, int chatId, String messageText) {
+        User sender = UserService.findUser(senderUsername);
+        PrivateChat chat = UserService.findPrivatChatById(chatId);
+        PrivateChatMessage newMessage = new PrivateChatMessage(messageText, senderUsername, chatId);
+        chat.getMessages().add(newMessage);
+        System.out.println("Message successfully sent to " + chatId);
+        return true;
     }
+
+
+
+
 
     public boolean declineFriendRequest(FriendRequest friendRequest) {
         User sender = friendRequest.getSender();

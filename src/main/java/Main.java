@@ -1,6 +1,8 @@
 import chat.PrivateChat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.extern.slf4j.XSlf4j;
+import message.PrivateChatMessage;
 import service.UserService;
 import user.User;
 
@@ -24,16 +26,18 @@ public class Main {
         PrivateChat chatMarwan = new PrivateChat(marwan.getUsername(), tomas.getUsername());
         marwan.addChatToUser(chatMarwan);
         tomas.addChatToUser(chatMarwan);
+        UserService.privateChats.put(chatMarwan.getChatId(), chatMarwan);
 
         PrivateChat chatAndreas = new PrivateChat(marwan.getUsername(), andreas.getUsername());
         marwan.addChatToUser(chatAndreas);
         andreas.addChatToUser(chatAndreas);
+        UserService.privateChats.put(chatAndreas.getChatId(), chatAndreas);
 
         ServerSocket serverSocket = new ServerSocket(12345);
         Socket socket = serverSocket.accept();
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        ObjectInputStream inObject = new ObjectInputStream(socket.getInputStream());
         PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
-        String json = (String) in.readObject();
+        String json = (String) inObject.readObject();
         char end = getEndPoint(json);
 
         switch (end) {
@@ -70,8 +74,8 @@ public class Main {
                 } else {
                     out.println("false");
                 }
-
-            case 'i':
+                break;
+            case 'i': // for initializing the registeredUsers List in the client
                 ObjectMapper om = new ObjectMapper();
                 om.registerModule(new JavaTimeModule());
                 json = json.substring(0, json.length() - 1);
@@ -85,6 +89,17 @@ public class Main {
                 outObject.writeObject(response);
                 outObject.close();
                 //System.out.println(tmp.getPrivateChats());
+                break;
+            case 's':   //for sending messages
+                System.out.println("send a message");
+
+                PrivateChatMessage receiveMessage = PrivateChatMessage.fromJson(json);
+                System.out.println(receiveMessage.getChatId());
+                UserService.addMsgToChat(receiveMessage.getChatId(), receiveMessage);
+                System.out.println(UserService.findPrivatChatById(receiveMessage.getChatId()));
+
+
+
         }
 
     }

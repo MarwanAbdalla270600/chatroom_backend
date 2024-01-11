@@ -1,5 +1,7 @@
 package message;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,22 +18,22 @@ import java.time.format.DateTimeFormatter;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 public class PrivateChatMessage extends Message implements Serializable {
-    @Column(name = "data", nullable = false)
-    private String data;
+    //@Column(name = "data", nullable = false)
+    private String messageText;
 
-    @ManyToOne
-    private User sender;
+    //@ManyToOne
+    private String senderUsername;
 
-    @ManyToOne
-    private User receiver;
+   // @ManyToOne
+    private int chatId;
 
-    @ManyToOne
+    //@ManyToOne
     private PrivateChat privateChat;  // Reference back to PrivateChat
-    public PrivateChatMessage(String data, User sender, User receiver) {
+    public PrivateChatMessage(String data, String sender, int chatId) {
         super();
-        this.data = data;
-        this.sender = sender;
-        this.receiver = receiver;
+        this.messageText = data;
+        this.senderUsername = sender;
+        this.chatId = chatId;
     }
 
     public PrivateChatMessage() {
@@ -40,12 +42,16 @@ public class PrivateChatMessage extends Message implements Serializable {
 
     @Override
     public String toString() {
-        DateTimeFormatter timeTransformer = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); //for displaying time in a readable format
-        return "Message from " + sender.getUsername() +
-                " to " + receiver.getUsername() +
-                " at " + getTime().format(timeTransformer) +
-                ": " + data;
+        return "PrivateChatMessage{" +
+                "data='" + messageText + '\'' +
+                ", sender='" + senderUsername + '\'' +
+                ", chatId=" + chatId +
+                ", privateChat=" + privateChat +
+                "} " + super.toString();
     }
 
-
+    public static PrivateChatMessage fromJson(String json) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(json, PrivateChatMessage.class);
+    }
 }
