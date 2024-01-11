@@ -7,7 +7,7 @@ import java.util.Map;
 
 
 public class UserService {
-    private static Map<String, User> registeredUsers = new HashMap<>();//HashMap hat Vorteile beim Zugriff, kein Iterating nötig wegen Key=String=Username
+    public static Map<String, User> registeredUsers = new HashMap<>();//HashMap hat Vorteile beim Zugriff, kein Iterating nötig wegen Key=String=Username
 
 
 

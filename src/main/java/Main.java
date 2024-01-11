@@ -10,19 +10,24 @@ import java.net.Socket;
 public class Main {
     public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
         //Starting server:
-        User adam = new User("tomas", "fran4z", 'm') ;
-        UserService.registerNewUser(adam);
-    ServerSocket serverSocket = new ServerSocket(12345);
+        User marwan = new User("marwan", "Ahjdsh212", 'm');
+        User tomas = new User("tomas", "fran4z", 'm');
+        User andreas = new User("andreas", "fra4343n4z", 'm');
+        UserService.registerNewUser(tomas);
+        UserService.registerNewUser(marwan);
+        UserService.registerNewUser(andreas);
+
+        ServerSocket serverSocket = new ServerSocket(12345);
     Socket socket = serverSocket.accept();
     ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
     PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
 
-        String json = (String) in.readObject();
+    String json = (String) in.readObject();
     char end = getEndPoint(json);
 
     switch (end) {
         case 'l':
-            System.out.println("register");
+            System.out.println("login");
             User loggedUser = User.fromJson(json);
             if(UserService.checkLogin(loggedUser)) {
                 out.println("true");
@@ -42,12 +47,23 @@ public class Main {
                 out.println("false");
                 System.out.println("send failure register");
             }
-
+            break;
+        case 'f':
+            System.out.println("add Friend");
+            json = json.substring(0, json.length()-1);
+            String[] parts = json.split(";");
+            String sender = parts[0];
+            String receiver = parts[1];
+            if(User.acceptFriendRequest(sender, receiver)){
+                out.println("true");
+            } else {
+                out.println("false");
+            }
 
     }
 
-    User test = User.fromJson(json);
-    System.out.println(test);
+    //User test = User.fromJson(json);
+    //System.out.println(test);
 
 
 

@@ -12,6 +12,7 @@ import message.PrivateChatMessage;
 import message.StatusMessage;
 import jakarta.persistence.*;
 import org.w3c.dom.ls.LSOutput;
+import service.UserService;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -154,28 +155,23 @@ public class User {
         }
     }
 
-    public boolean acceptFriendRequest(FriendRequest friendRequest) {
-        User sender = friendRequest.getSender();
-        User receiver = friendRequest.getReceiver();
+    public static boolean acceptFriendRequest(String sender, String receiver) {
+        User senderUser = UserService.registeredUsers.get(sender);
+        User receiverUser = UserService.registeredUsers.get(receiver);
+        System.out.println(".." + sender);
+        System.out.println(".." + receiver);
 
-        //check if status is pending AND current user is the actual receiver of this friendRequest
-        if (friendRequest.getStatus() == FriendRequest.FriendRequestStatus.PENDING && this.equals(receiver)) {
-            sender.friendList.add(receiver);
-            receiver.friendList.add(sender);
-            friendRequest.setStatus(FriendRequest.FriendRequestStatus.ACCEPTED);
-
-            sendNotification(sender, new StatusMessage(notificationMsg(friendRequest)));
-            sendNotification(receiver, new StatusMessage(notificationMsg(friendRequest)));
-
-            removeFriendRequest(friendRequest);
-
-            PrivateChat chatRoom = new PrivateChat(sender, receiver);
-            sender.getPrivateChats().add(chatRoom);
-            receiver.getPrivateChats().add(chatRoom);
-            return true;
-        } else {
+        if(senderUser == null || receiverUser == null) {
             return false;
         }
+        //check if status is pending AND current user is the actual receiver of this friendRequest
+            senderUser.friendList.add(receiverUser);
+            receiverUser.friendList.add(senderUser);
+
+            PrivateChat chatRoom = new PrivateChat(senderUser, receiverUser);
+            senderUser.getPrivateChats().add(chatRoom);
+            receiverUser.getPrivateChats().add(chatRoom);
+            return true;
     }
 
     public boolean sendMessage(User receiver, String messageText) {
