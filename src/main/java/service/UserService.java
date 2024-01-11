@@ -7,36 +7,33 @@ import java.util.Map;
 
 
 public class UserService {
-    private Map<String, User> registeredUsers; //HashMap hat Vorteile beim Zugriff, kein Iterating nötig wegen Key=String=Username
+    private static Map<String, User> registeredUsers = new HashMap<>();//HashMap hat Vorteile beim Zugriff, kein Iterating nötig wegen Key=String=Username
 
 
-    public UserService() {
-        this.registeredUsers = new HashMap<>();
-    }
 
-    public User registerNewUser(String username, String password, char gender) {
-        if (!isValidUsername(username)) {
+    public static boolean registerNewUser(User user) {
+        if (!isValidUsername(user.getUsername())) {
             System.out.println("Username invalid. Usernames must be between 3 and 25 characters long, and contain only " +
                     "digits and english letters");
-            return null;
+            return false;
         }
 
-        if (!isValidPassword(password)) {
+        if (!isValidPassword(user.getPassword())) {
             System.out.println("Password invalid. Passwords must be between 6 and 25 characters long and must contain " +
                     "numbers AND digits!");
-            return null;
+            return false;
         }
         //denk für gender wirds keine Validierung brauchen, weil man im GUI graphisch nur zwischen weibl./männl. wählt?!
 
-        if (!registeredUsers.containsKey(username)) {
-            User newUser = new User(username, password, gender);
-            registeredUsers.put(username, newUser);
+        if (!registeredUsers.containsKey(user.getUsername())) {
+            User newUser = new User(user.getUsername(), user.getPassword(), user.getGender());
+            registeredUsers.put(user.getUsername(), newUser);
             System.out.println("New User " + newUser.getUsername() + " successfully registered");
-            return newUser;
+            return true;
         }
 
         System.out.println("Username already exists, please choose a other name");
-        return null;
+        return false;
     }
 
     public boolean changeUsername(String oldUsername, String newUsername) { //method if a User wants to change username later on
@@ -70,7 +67,7 @@ public class UserService {
         return false;
     }
 
-    public User findUser(String username) {
+    public static User findUser(String username) {
         if (username == null || username.isEmpty()) {
             return null;
         }
@@ -79,6 +76,10 @@ public class UserService {
             return searchedUser;
         }
         return null;
+    }
+
+    public static boolean checkLogin(User user) {
+        return findUser(user.getUsername()) != null;
     }
 
     private static boolean isValidUsername(String username) {

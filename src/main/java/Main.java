@@ -1,8 +1,8 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
+import service.UserService;
 import user.User;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -10,18 +10,40 @@ import java.net.Socket;
 public class Main {
     public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
         //Starting server:
+        User adam = new User("tomas", "fran4z", 'm') ;
+        UserService.registerNewUser(adam);
     ServerSocket serverSocket = new ServerSocket(12345);
     Socket socket = serverSocket.accept();
     ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-    String json = (String) in.readObject();
+    PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+
+        String json = (String) in.readObject();
     char end = getEndPoint(json);
 
     switch (end) {
         case 'l':
-            System.out.println("login");
+            System.out.println("register");
+            User loggedUser = User.fromJson(json);
+            if(UserService.checkLogin(loggedUser)) {
+                out.println("true");
+                System.out.println("send success login");
+            } else {
+                out.println("false");
+                System.out.println("send failure login");
+            }
             break;
         case 'r':
             System.out.println("register");
+            User registerUser = User.fromJson(json);
+            if(UserService.registerNewUser(registerUser)) {
+                out.println("true");
+                System.out.println("send success register");
+            } else {
+                out.println("false");
+                System.out.println("send failure register");
+            }
+
+
     }
 
     User test = User.fromJson(json);
