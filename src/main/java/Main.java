@@ -120,6 +120,5 @@ public class Main {
         System.out.println("Number of chats of Yolo: " + yolo.getPrivateChats().size());
         System.out.println("Number of chats of Bura: " + bura.getPrivateChats().size());
         System.out.println("Number of chats of Kevin: " + kevin.getPrivateChats().size());
-
     } //psvm
 }
