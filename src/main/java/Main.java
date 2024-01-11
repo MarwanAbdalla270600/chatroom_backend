@@ -25,6 +25,9 @@ public class Main {
         marwan.addChatToUser(chatMarwan);
         tomas.addChatToUser(chatMarwan);
 
+        PrivateChat chatAndreas = new PrivateChat(marwan.getUsername(), andreas.getUsername());
+        marwan.addChatToUser(chatAndreas);
+        andreas.addChatToUser(chatAndreas);
 
         ServerSocket serverSocket = new ServerSocket(12345);
         Socket socket = serverSocket.accept();

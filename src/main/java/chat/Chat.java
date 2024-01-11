@@ -32,6 +32,8 @@ public abstract class Chat<T extends Message> {
     public Chat() {
         this.date = LocalDateTime.now();
         //this.messages = new LinkedList<>();
+        this.chatId = nextId;
+        nextId++;
     }
     public List<T> getMessages() {
         return (List<T>) messages;
